@@ -1,0 +1,31 @@
+.Link,
+.Link__active {
+    display: flex;
+    padding: 16px 20px;
+    max-width: max-content;
+    width: 100%;
+    text-decoration: none;
+}
+
+.Link p,
+.Link__active p {
+    margin-left: 8px;
+}
+
+.Link p,
+.Link svg,
+.Link__active svg {
+    transition: all 0.15s;
+}
+
+.Link__active p {
+    color: white;
+}
+
+.Link:hover p {
+    color: white;
+}
+
+.Link:hover svg {
+    fill: white;
+}
