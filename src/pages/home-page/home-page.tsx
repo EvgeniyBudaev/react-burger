@@ -1,13 +1,14 @@
 import React from "react";
-import { AppHeader, BurgerIngredients } from "components";
+import { BurgerIngredients, Layout, Order } from "components";
+import classes from "./home-page.module.css";
 
 export const HomePage: React.FC = () => {
     return (
-        <>
-            <AppHeader />
-            <main>
+        <Layout>
+            <div className={classes.HomePage}>
                 <BurgerIngredients />
-            </main>
-        </>
+                <Order />
+            </div>
+        </Layout>
     );
 };

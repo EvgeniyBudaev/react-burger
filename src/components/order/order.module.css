@@ -1,0 +1,19 @@
+.Order {
+    max-width: 600px;
+    width: 100%;
+}
+
+.Control {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Control button {
+    margin-bottom: 40px;
+    margin-left: 40px;
+}
+
+.TotalPrice {
+    display: flex;
+    align-items: center;
+}

@@ -47,7 +47,7 @@ export const BurgerIngredients: React.FC = () => {
         <section className={cn("mb-10 mt-10", classes.BurgerIngredients)}>
             <Error />
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-            <div className={classes.Tabs}>
+            <div className={cn("mb-10", classes.Tabs)}>
                 <Tab
                     value={BUN}
                     active={currentTab === BUN}

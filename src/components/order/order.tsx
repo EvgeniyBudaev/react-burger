@@ -1,0 +1,25 @@
+import React from "react";
+import {
+    Button,
+    CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import cn from "classnames";
+import { BurgerConstructor } from "components";
+import classes from "./order.module.css";
+
+export const Order: React.FC = () => {
+    return (
+        <section className={cn("mt-25 pr-4 pl-4", classes.Order)}>
+            <BurgerConstructor />
+            <div className={classes.Control}>
+                <div className={classes.TotalPrice}>
+                    <p className="text text_type_digits-medium mr-2">610</p>
+                    <CurrencyIcon type="primary" />
+                </div>
+                <Button type="primary" size="large">
+                    Оформить заказ
+                </Button>
+            </div>
+        </section>
+    );
+};

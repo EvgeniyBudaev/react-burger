@@ -12,26 +12,28 @@ export const AppHeader: React.FC = () => {
             className={cn("pb-4 pt-4", classes.AppHeader)}
             style={{ backgroundColor: "#1C1C21" }}
         >
-            <nav>
+            <div className={classes.Container}>
+                <nav className={classes.Navigation}>
+                    <AppHeaderLink
+                        iconType="burger"
+                        routeTo={ROUTES.HOME}
+                        title="Конструктор"
+                    />
+                    <AppHeaderLink
+                        iconType="list"
+                        routeTo={ROUTES.ORDER_LIST}
+                        title="Лента заказов"
+                    />
+                </nav>
+                <Spacer />
+                <Logo />
+                <Spacer />
                 <AppHeaderLink
-                    iconType="burger"
-                    routeTo={ROUTES.HOME}
-                    title="Конструктор"
+                    iconType="profile"
+                    routeTo={ROUTES.PERSONAL_AREA}
+                    title="Личный кабинет"
                 />
-                <AppHeaderLink
-                    iconType="list"
-                    routeTo={ROUTES.ORDER_LIST}
-                    title="Лента заказов"
-                />
-            </nav>
-            <Spacer />
-            <Logo />
-            <Spacer />
-            <AppHeaderLink
-                iconType="profile"
-                routeTo={ROUTES.PERSONAL_AREA}
-                title="Личный кабинет"
-            />
+            </div>
         </header>
     );
 };

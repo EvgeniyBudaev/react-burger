@@ -1,4 +1,5 @@
 .Ingredient {
+    position: relative;
     max-width: 272px;
     width: 100%;
 }
@@ -12,10 +13,6 @@
 .Price {
     display: flex;
     justify-content: center;
-}
-
-.Price p {
-    margin-right: 8px;
 }
 
 .Title {
