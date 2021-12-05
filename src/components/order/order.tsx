@@ -9,7 +9,7 @@ import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
     return (
-        <section className={cn("mt-25 pr-4 pl-4", classes.Order)}>
+        <section className={cn("mb-10 mt-25 pr-4 pl-4", classes.Order)}>
             <BurgerConstructor />
             <div className={classes.Control}>
                 <div className={classes.TotalPrice}>
