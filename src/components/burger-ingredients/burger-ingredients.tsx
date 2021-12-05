@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { ToastContainer as Error } from "react-toastify";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { fetchSearchProducts } from "api/menu";
+import cn from "classnames";
+import { fetchBurgerIngredients } from "api/menu";
 import { Menu } from "components";
+import { IIngredient } from "types/ingredient";
 import { Spinner } from "ui-kit";
+import { AlertError } from "utils/alert";
 import { getMenuTitle } from "utils/menu";
 import classes from "./burger-ingredients.module.css";
 
@@ -12,28 +16,36 @@ export const BurgerIngredients: React.FC = () => {
     const SAUCE = "sauce";
     const [currentTab, setCurrentTab] = React.useState(BUN);
     const [isLoading, setIsLoading] = useState(false);
-    const [products, setProducts] = useState([]);
+    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
             setIsLoading(true);
             try {
-                const response = await fetchSearchProducts();
-                setProducts(response.data);
+                const response = await fetchBurgerIngredients();
+                setIngredients(response.data);
                 setIsLoading(false);
-            } catch (e) {
-                console.log("Error");
+            } catch (error) {
                 setIsLoading(false);
+                AlertError(
+                    "Не удалось получить список ингредиентов!",
+                    error.message
+                );
             }
         };
         void fetchProducts();
     }, []);
 
-    const activeMenu =
-        products && products.filter(product => product.type === currentTab);
+    const activeMenu = useMemo(() => {
+        return (
+            ingredients &&
+            ingredients.filter(ingredient => ingredient.type === currentTab)
+        );
+    }, [currentTab, ingredients]);
 
     return (
-        <div className="mb-10 mt-10">
+        <section className={cn("mb-10 mt-10", classes.BurgerIngredients)}>
+            <Error />
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
             <div className={classes.Tabs}>
                 <Tab
@@ -63,6 +75,6 @@ export const BurgerIngredients: React.FC = () => {
             ) : (
                 <Menu menu={activeMenu} title={getMenuTitle(currentTab)} />
             )}
-        </div>
+        </section>
     );
 };

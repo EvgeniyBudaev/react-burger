@@ -1,0 +1,13 @@
+.Menu {
+    /*height: 700px;*/
+    /*overflow: scroll;*/
+}
+
+.List {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 0 16px;
+}

@@ -2,6 +2,6 @@ import App from "./app";
 import AppHeader from "./app-header";
 import BurgerIngredients from "./burger-ingredients";
 import Menu from "./menu";
-import Product from "./product";
+import Ingredient from "./ingredient";
 
-export { App, AppHeader, BurgerIngredients, Menu, Product };
+export { App, AppHeader, BurgerIngredients, Ingredient, Menu };

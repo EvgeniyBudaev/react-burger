@@ -1,0 +1,21 @@
+@import "./colors";
+
+.ScrollbarsCustom-TrackY {
+    width: 8px !important;
+    background: #2F2F37 !important;
+    border-radius: 0 !important;
+}
+
+.thumbY {
+    width: 8px !important;
+    background: var(--secondary) !important;
+    border-radius: 0 !important;
+}
+
+.thumbY:hover {
+    background: #4a4a79 !important;
+}
+
+.thumbY:active {
+    background: #353570 !important;
+}

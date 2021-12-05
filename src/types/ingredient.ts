@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface IIngredient {
     calories: number;
     carbohydrates: number;
     _id: string;

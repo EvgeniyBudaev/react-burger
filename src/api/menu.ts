@@ -1,10 +1,10 @@
-import { IProduct } from "types/product";
+import { IIngredient } from "types/ingredient";
 
 export interface ISearchResponse {
-    data: IProduct[];
+    data: IIngredient[];
 }
 
-export const fetchSearchProducts = (): Promise<ISearchResponse> =>
+export const fetchBurgerIngredients = (): Promise<ISearchResponse> =>
     Promise.resolve({
         data: [
             {
