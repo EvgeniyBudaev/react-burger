@@ -1,0 +1,21 @@
+.Ingredient {
+    position: relative;
+    max-width: 272px;
+    width: 100%;
+}
+
+.Image {
+    margin: 0 auto;
+    max-width: 240px;
+    width: 100%;
+}
+
+.Price {
+    display: flex;
+    justify-content: center;
+}
+
+.Title {
+    text-align: center;
+    min-height: 40px;
+}

@@ -1,0 +1,27 @@
+@import "./colors";
+
+.scrollbar-thumb {
+    border-radius: 0 !important;
+}
+
+.scrollbar-track-x,
+.scrollbar-thumb-x {
+    height: 8px !important;
+}
+
+.scrollbar-track-y,
+.scrollbar-thumb-y {
+    width: 8px !important;
+}
+
+.scrollbar-track .scrollbar-thumb {
+    background: var(--secondary);
+}
+
+.scrollbar-thumb-y:hover {
+    background: #4a4a79;
+}
+
+.scrollbar-thumb-y:active {
+    background: #353570;
+}

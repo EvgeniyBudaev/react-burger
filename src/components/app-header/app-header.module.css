@@ -1,0 +1,18 @@
+.AppHeader {
+    display: flex;
+    background-color: #1c1c21;
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04),
+        0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.Navigation {
+    display: flex;
+}
+
+.Container {
+    display: flex;
+    max-width: 1304px;
+    width: 100%;
+    padding: 0 16px;
+    margin: 0 auto;
+}

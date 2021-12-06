@@ -1,0 +1,21 @@
+.ConstructorElement {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.ConstructorElement svg {
+    margin-right: 8px;
+}
+
+.ConstructorElement div {
+    max-width: 536px;
+    width: 100%;
+}
+
+.ConstructorElement .Empty {
+    display: inline-flex;
+    margin-right: 8px;
+    max-width: 24px;
+    height: 24px;
+}
