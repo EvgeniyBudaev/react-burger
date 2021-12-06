@@ -8,10 +8,7 @@ import classes from "./app-header.module.css";
 
 export const AppHeader: React.FC = () => {
     return (
-        <header
-            className={cn("pb-4 pt-4", classes.AppHeader)}
-            style={{ backgroundColor: "#1C1C21" }}
-        >
+        <header className={cn("pb-4 pt-4", classes.AppHeader)}>
             <div className={classes.Container}>
                 <nav className={classes.Navigation}>
                     <AppHeaderLink

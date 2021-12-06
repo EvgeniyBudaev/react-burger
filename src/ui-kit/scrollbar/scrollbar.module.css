@@ -1,0 +1,20 @@
+.track {
+    background-color: #2f2f37;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    width: 8px !important;
+}
+
+.thumb {
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+.thumb:hover {
+    background-color: #4a4a79;
+}
+
+.thumb:active {
+    background-color: #353570;
+}

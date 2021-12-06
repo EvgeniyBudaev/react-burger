@@ -1,7 +1,7 @@
 import React, { DOMAttributes } from "react";
 import cn from "classnames";
 import { IconType, iconTypes } from "./icon-type";
-import styles from "./icon.module.css";
+import classes from "./icon.module.css";
 
 export interface IIconProps extends DOMAttributes<HTMLSpanElement> {
     className?: string;
@@ -13,7 +13,7 @@ const getIcon = (type: IconType): JSX.Element =>
 
 export const Icon: React.FC<IIconProps> = ({ className, type, ...rest }) => {
     return (
-        <div className={cn(styles.Icon, className)} {...rest}>
+        <div className={cn(classes.Icon, className)} {...rest}>
             {getIcon(type)}
         </div>
     );

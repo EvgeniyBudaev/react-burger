@@ -7,7 +7,6 @@ import cn from "classnames";
 import classes from "./constructor-element.module.css";
 
 type ConstructorElementType = "top" | "bottom";
-type IngredientType = "bun" | "sauce" | "main";
 
 export interface IConstructorElementProps {
     isLocked?: boolean;
@@ -15,7 +14,7 @@ export interface IConstructorElementProps {
     text: string;
     thumbnail: string;
     type?: ConstructorElementType;
-    typeIngredient?: IngredientType;
+    typeIngredient?: string;
 }
 
 export const ConstructorElement: React.FC<IConstructorElementProps> = ({

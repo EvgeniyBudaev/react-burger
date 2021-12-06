@@ -1,21 +1,27 @@
 @import "./colors";
 
-.ScrollbarsCustom-TrackY {
-    width: 8px !important;
-    background: #2f2f37 !important;
+.scrollbar-thumb {
     border-radius: 0 !important;
 }
 
-.thumbY {
+.scrollbar-track-x,
+.scrollbar-thumb-x {
+    height: 8px !important;
+}
+
+.scrollbar-track-y,
+.scrollbar-thumb-y {
     width: 8px !important;
-    background: var(--secondary) !important;
-    border-radius: 0 !important;
 }
 
-.thumbY:hover {
-    background: #4a4a79 !important;
+.scrollbar-track .scrollbar-thumb {
+    background: var(--secondary);
 }
 
-.thumbY:active {
-    background: #353570 !important;
+.scrollbar-thumb-y:hover {
+    background: #4a4a79;
+}
+
+.scrollbar-thumb-y:active {
+    background: #353570;
 }

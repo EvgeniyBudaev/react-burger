@@ -25,7 +25,7 @@ class ErrorBoundary extends Component<
     }
 
     // с помощью этого метода логируем информацию об ошибке:
-    componentDidCatch(error: Error, info: ErrorInfo) {
+    componentDidCatch(error: Error, info: ErrorInfo): void {
         console.log("Возникла ошибка!", error, info);
     }
 

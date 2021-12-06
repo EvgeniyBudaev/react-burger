@@ -18,7 +18,7 @@ export const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
         <li className={classes.Ingredient}>
             <Counter count={1} size="default" />
             <div className={classes.Image}>
-                <img src={image} alt="" />
+                <img src={image} alt={name} />
             </div>
             <div className={cn("mb-1 mt-1", classes.Price)}>
                 <p className="text text_type_digits-default mr-2">{price}</p>
