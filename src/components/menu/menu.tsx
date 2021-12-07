@@ -20,7 +20,7 @@ export const Menu: React.FC<IMenuProps> = ({ menu, title }) => {
                 hideTracksWhenNotNeeded
             >
                 <h2 className="text text_type_main-medium mb-6">{title}</h2>
-                <ul className={cn("mb-10", classes.List)}>
+                <ul className={cn("mb-10 pl-4 pr-4", classes.List)}>
                     {menu &&
                         menu.map(ingredient => (
                             <Ingredient

@@ -1,0 +1,27 @@
+.Image,
+.Image img {
+    margin: 0 auto;
+    max-width: 480px;
+    width: 100%;
+}
+
+.Container {
+    margin: 0 auto;
+    max-width: 520px;
+    width: 100%;
+}
+
+.Title {
+    text-align: center;
+}
+
+.Details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Detail {
+    text-align: center;
+    max-width: 112px;
+    width: 100%;
+}

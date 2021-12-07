@@ -28,7 +28,7 @@ export const BurgerIngredients: React.FC = () => {
             } catch (error) {
                 setIsLoading(false);
                 AlertError(
-                    "Не удалось получить список ингредиентов!",
+                    "Не удалось получить список ингредиентов для конструктора!",
                     error.message
                 );
             }

@@ -1,0 +1,43 @@
+/* ----- Модальное окно по центру адаптировано ----- */
+.react-responsive-modal-root .react-responsive-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ModalDefault {
+    position: relative;
+    padding: 40px 40px 60px;
+    background-color: var(--background-alt);
+    border-radius: 40px;
+}
+
+.ModalDefault__medium {
+    min-width: 720px;
+    max-width: 720px;
+    width: 100%;
+}
+
+.ModalDefaultCloseButton {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    width: 24px;
+    height: 24px;
+    outline: transparent;
+}
+
+.ModalDefaultCloseButton path {
+    fill: #f2f2f3;
+    transition: all 0.15s;
+}
+
+.ModalDefaultCloseButton:hover path {
+    fill: var(--secondary);
+}
+
+.ModalHeader {
+}
+
+.ModalContent {
+}
