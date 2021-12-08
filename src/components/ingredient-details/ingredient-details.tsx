@@ -21,10 +21,10 @@ export const IngredientDetails: React.FC<IIngredientDetailsProps> = ({
 }) => {
     return (
         <>
-            <div className={cn("mb-4", classes.Image)}>
+            <div className={cn("mb-4 center_on_width", classes.Image)}>
                 <img src={image} alt={name} />
             </div>
-            <div className={classes.Container}>
+            <div className={cn(classes.Container, "center_on_width")}>
                 <p
                     className={cn(
                         "text text_type_main-medium mb-8",

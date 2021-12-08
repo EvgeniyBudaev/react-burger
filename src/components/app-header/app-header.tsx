@@ -9,7 +9,7 @@ import classes from "./app-header.module.css";
 export const AppHeader: React.FC = () => {
     return (
         <header className={cn("pb-4 pt-4", classes.AppHeader)}>
-            <div className={classes.Container}>
+            <div className={cn("center_on_width", classes.Container)}>
                 <nav className={classes.Navigation}>
                     <AppHeaderLink
                         iconType="burger"

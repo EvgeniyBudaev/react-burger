@@ -1,14 +1,10 @@
 .Image,
 .Image img {
-    margin: 0 auto;
     max-width: 480px;
-    width: 100%;
 }
 
 .Container {
-    margin: 0 auto;
     max-width: 520px;
-    width: 100%;
 }
 
 .Title {

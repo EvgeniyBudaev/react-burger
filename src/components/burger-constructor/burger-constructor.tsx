@@ -37,19 +37,19 @@ export const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
                 hideTracksWhenNotNeeded
             >
                 {ingredients &&
-                    ingredients.map(product => (
+                    ingredients.map(ingredient => (
                         <ConstructorElement
-                            key={product._id}
-                            calories={product.calories}
-                            carbohydrates={product.carbohydrates}
-                            fat={product.fat}
-                            image_large={product.image_large}
-                            name={product.name}
-                            price={product.price}
-                            proteins={product.proteins}
-                            text={product.name}
-                            thumbnail={product.image_mobile}
-                            typeIngredient={product.type}
+                            key={ingredient._id}
+                            calories={ingredient.calories}
+                            carbohydrates={ingredient.carbohydrates}
+                            fat={ingredient.fat}
+                            image_large={ingredient.image_large}
+                            name={ingredient.name}
+                            price={ingredient.price}
+                            proteins={ingredient.proteins}
+                            text={ingredient.name}
+                            thumbnail={ingredient.image_mobile}
+                            typeIngredient={ingredient.type}
                         />
                     ))}
             </Scrollbar>

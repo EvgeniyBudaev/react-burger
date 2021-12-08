@@ -11,7 +11,9 @@ export const Layout: React.FC<ILayoutProps> = ({ children }) => {
     return (
         <>
             <AppHeader />
-            <main className={cn("pl-4 pr-4", classes.Main)}>{children}</main>
+            <main className={cn("pl-4 pr-4 center_on_width", classes.Main)}>
+                {children}
+            </main>
         </>
     );
 };

@@ -18,3 +18,7 @@
 .thumb:active {
     background-color: #353570;
 }
+
+.Scrollbar > div {
+    overflow-x: hidden !important;
+}

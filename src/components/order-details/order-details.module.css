@@ -8,7 +8,5 @@
 }
 
 .Container {
-    margin: 0 auto;
     max-width: 520px;
-    width: 100%;
 }

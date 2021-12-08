@@ -6,7 +6,7 @@ import classes from "./order-details.module.css";
 export const OrderDetails: React.FC = () => {
     return (
         <section className={cn("mb-10", classes.OrderDetails)}>
-            <div className={classes.Container}>
+            <div className={cn("center_on_width", classes.Container)}>
                 <p className="text text_type_digits-large mb-8 mt-10">034536</p>
                 <p className="text text_type_main-medium mb-15">
                     идентификатор заказа

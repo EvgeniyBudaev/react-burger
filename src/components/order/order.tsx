@@ -1,18 +1,21 @@
+import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { useEffect, useMemo, useState } from "react";
+import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     Button,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { AxiosError } from "axios";
 import cn from "classnames";
 import { fetchBurgerIngredients } from "api/menu";
 import { BurgerConstructor, OrderDetails } from "components";
 import { IIngredient } from "types/ingredient";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
+import { getErrorStatus } from "utils/error";
 import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
-    const BUN = "bun";
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [ingredients, setIngredients] = useState<IIngredient[]>([]);
@@ -24,32 +27,53 @@ export const Order: React.FC = () => {
     const buns = useMemo(() => {
         return (
             ingredients &&
-            ingredients.filter(ingredient => ingredient.type === BUN)
+            ingredients.filter(
+                ingredient => ingredient.type === INGREDIENT_TYPE.BUN
+            )
         );
     }, [ingredients]);
-    const contents = useMemo(() => {
+    const mains = useMemo(() => {
         return (
             ingredients &&
-            ingredients.filter(ingredient => ingredient.type !== BUN)
+            ingredients.filter(
+                ingredient => ingredient.type !== INGREDIENT_TYPE.BUN
+            )
         );
     }, [ingredients]);
     const firstBun = buns[0];
     const lastBun = buns[1];
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchProducts = () => {
             setIsLoading(true);
-            try {
-                const response = await fetchBurgerIngredients();
-                setIngredients(response.data);
-                setIsLoading(false);
-            } catch (error) {
-                setIsLoading(false);
-                AlertError(
-                    "Не удалось получить список ингредиентов для конструктора!",
-                    error.message
-                );
-            }
+            fetchBurgerIngredients()
+                .then(response => {
+                    setIngredients(response.data);
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    setIsLoading(false);
+                    if (error.response) {
+                        const errorStatus = getErrorStatus(error as AxiosError);
+
+                        if (errorStatus === 404) {
+                            AlertError(
+                                "Запрашиваемой страницы не существует!",
+                                error.message
+                            );
+                        }
+                    } else if (error.request) {
+                        AlertError(
+                            "Не правильные параметры запроса!",
+                            error.message
+                        );
+                    } else {
+                        AlertError(
+                            "Не удалось получить список ингредиентов!",
+                            error.message
+                        );
+                    }
+                });
         };
         void fetchProducts();
     }, []);
@@ -66,10 +90,11 @@ export const Order: React.FC = () => {
 
     return (
         <>
+            <ErrorPopup />
             <section className={cn("mb-10 mt-25 pr-2 pl-2", classes.Order)}>
-                {contents && firstBun && lastBun && (
+                {mains && firstBun && lastBun && (
                     <BurgerConstructor
-                        ingredients={contents}
+                        ingredients={mains}
                         lastBun={lastBun}
                         firstBun={firstBun}
                     />

@@ -1,3 +1,4 @@
+import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { useState } from "react";
 import {
     ConstructorElement as YaConstructorElement,
@@ -55,7 +56,7 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
                 className={cn("mb-4", classes.ConstructorElement)}
                 onClick={handleModalOpen}
             >
-                {typeIngredient !== "bun" ? (
+                {typeIngredient !== INGREDIENT_TYPE.BUN ? (
                     <DragIcon type="primary" />
                 ) : (
                     <div className={classes.Empty} />
