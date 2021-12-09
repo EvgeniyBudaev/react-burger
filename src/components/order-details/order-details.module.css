@@ -1,0 +1,12 @@
+.OrderDetails p {
+    text-align: center;
+}
+
+.OrderDetailsIcon {
+    display: flex;
+    justify-content: center;
+}
+
+.Container {
+    max-width: 520px;
+}
