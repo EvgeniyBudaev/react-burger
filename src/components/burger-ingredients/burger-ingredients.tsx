@@ -46,7 +46,7 @@ export const BurgerIngredients: React.FC = () => {
 
                         if (errorStatus === 404) {
                             AlertError(
-                                "Запрашиваемой страницы не существует!",
+                                "Запрашиваемой страницы не существует! (from BurgerIngredients)",
                                 error.message
                             );
                         }

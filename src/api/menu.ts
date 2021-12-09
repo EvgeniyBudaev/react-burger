@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { IIngredient } from "types/ingredient";
 
 export interface ISearchResponse {
@@ -7,9 +7,7 @@ export interface ISearchResponse {
 
 const INGREDIENTS_URL = "https://norma.nomoreparties.space/api/ingredients";
 
-export const fetchBurgerIngredients = (): Promise<AxiosResponse> => {
-    return axios
-        .get<ISearchResponse>(INGREDIENTS_URL)
-        .then(response => response.data)
-        .catch(error => error);
+export const fetchBurgerIngredients = async (): Promise<ISearchResponse> => {
+    const response = await axios.get<ISearchResponse>(INGREDIENTS_URL);
+    return response.data;
 };

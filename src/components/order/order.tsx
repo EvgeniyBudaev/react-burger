@@ -21,7 +21,10 @@ export const Order: React.FC = () => {
     const [ingredients, setIngredients] = useState<IIngredient[]>([]);
 
     const totalPrice = useMemo(() => {
-        return ingredients.reduce((acc, current) => acc + current.price, 0);
+        return (
+            ingredients &&
+            ingredients.reduce((acc, current) => acc + current.price, 0)
+        );
     }, [ingredients]);
 
     const buns = useMemo(() => {
@@ -40,8 +43,8 @@ export const Order: React.FC = () => {
             )
         );
     }, [ingredients]);
-    const firstBun = buns[0];
-    const lastBun = buns[1];
+    const firstBun = buns && buns[0];
+    const lastBun = buns && buns[1];
 
     useEffect(() => {
         const fetchProducts = () => {
@@ -58,7 +61,7 @@ export const Order: React.FC = () => {
 
                         if (errorStatus === 404) {
                             AlertError(
-                                "Запрашиваемой страницы не существует!",
+                                "Запрашиваемой страницы не существует! (from Order)",
                                 error.message
                             );
                         }
