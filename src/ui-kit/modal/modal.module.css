@@ -35,9 +35,3 @@
 .ModalDefaultCloseButton:hover path {
     fill: var(--secondary);
 }
-
-.ModalHeader {
-}
-
-.ModalContent {
-}

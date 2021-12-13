@@ -1,3 +1,4 @@
+import { BASE_URL } from "constants/routes";
 import axios from "axios";
 import { IOrderDetails } from "types/order";
 
@@ -5,7 +6,7 @@ export interface IOrderDetailsRequest {
     ingredients: string[];
 }
 
-const ORDER_URL = "https://norma.nomoreparties.space/api/orders";
+const ORDER_URL = `${BASE_URL}orders`;
 
 export const fetchMakeOrder = async (
     options: IOrderDetailsRequest

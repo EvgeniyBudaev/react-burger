@@ -51,22 +51,19 @@ export const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
                     {name}
                 </p>
             </li>
-            <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
-                <Modal.Header>
-                    <p className="text text_type_main-large">
-                        Детали ингредиента
-                    </p>
-                </Modal.Header>
-                <Modal.Content>
-                    <IngredientDetails
-                        calories={calories}
-                        carbohydrates={carbohydrates}
-                        image={image_large}
-                        fat={fat}
-                        name={name}
-                        proteins={proteins}
-                    />
-                </Modal.Content>
+            <Modal
+                title="Детали ингредиента"
+                isOpen={isOpenModal}
+                onCloseModal={handleModalClose}
+            >
+                <IngredientDetails
+                    calories={calories}
+                    carbohydrates={carbohydrates}
+                    image={image_large}
+                    fat={fat}
+                    name={name}
+                    proteins={proteins}
+                />
             </Modal>
         </>
     );

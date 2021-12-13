@@ -118,13 +118,11 @@ export const Order: React.FC = () => {
                 </div>
             </section>
             <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
-                <Modal.Content>
-                    {isLoading ? (
-                        <Spinner />
-                    ) : (
-                        <OrderDetails orderDetails={orderDetails} />
-                    )}
-                </Modal.Content>
+                {isLoading ? (
+                    <Spinner />
+                ) : (
+                    <OrderDetails orderDetails={orderDetails} />
+                )}
             </Modal>
         </>
     );
