@@ -1,5 +1,5 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     Button,
@@ -7,9 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { AxiosError } from "axios";
 import cn from "classnames";
-import { fetchBurgerIngredients } from "api/menu";
+import { fetchMakeOrder } from "api/order";
 import { BurgerConstructor, OrderDetails } from "components";
-import { IIngredient } from "types/ingredient";
+import { BurgerContext, TotalPriceContext } from "context/burger";
+import { IOrderDetails } from "types/order";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
 import { getErrorStatus } from "utils/error";
@@ -18,14 +19,14 @@ import classes from "./order.module.css";
 export const Order: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+    const [orderDetails, setOrderDetails] = useState<IOrderDetails>();
+    const ingredients = useContext(BurgerContext);
+    const { totalPriceState, totalPriceDispatcher } =
+        useContext(TotalPriceContext);
 
-    const totalPrice = useMemo(() => {
-        return (
-            ingredients &&
-            ingredients.reduce((acc, current) => acc + current.price, 0)
-        );
-    }, [ingredients]);
+    useEffect(() => {
+        totalPriceDispatcher({ type: "sum", payload: ingredients });
+    }, [ingredients, totalPriceDispatcher]);
 
     const buns = useMemo(() => {
         return (
@@ -43,53 +44,51 @@ export const Order: React.FC = () => {
             )
         );
     }, [ingredients]);
+    const orderIds = useMemo(() => {
+        return ingredients && ingredients.map(ingredient => ingredient._id);
+    }, [ingredients]);
     const firstBun = buns && buns[0];
-    const lastBun = buns && buns[1];
+    const lastBun = buns && buns[0];
 
-    useEffect(() => {
-        const fetchProducts = () => {
-            setIsLoading(true);
-            fetchBurgerIngredients()
-                .then(response => {
-                    setIngredients(response.data);
-                    setIsLoading(false);
-                })
-                .catch(error => {
-                    setIsLoading(false);
-                    if (error.response) {
-                        const errorStatus = getErrorStatus(error as AxiosError);
+    const handleMakeOrderClick = () => {
+        setIsLoading(true);
+        const options = {
+            ingredients: orderIds,
+        };
+        fetchMakeOrder(options)
+            .then(response => {
+                setIsLoading(false);
+                setOrderDetails(response);
+                setIsOpenModal(true);
+            })
+            .catch(error => {
+                setIsLoading(false);
+                if (error.response) {
+                    const errorStatus = getErrorStatus(error as AxiosError);
 
-                        if (errorStatus === 404) {
-                            AlertError(
-                                "Запрашиваемой страницы не существует! (from Order)",
-                                error.message
-                            );
-                        }
-                    } else if (error.request) {
+                    if (errorStatus === 404) {
                         AlertError(
-                            "Не правильные параметры запроса!",
-                            error.message
-                        );
-                    } else {
-                        AlertError(
-                            "Не удалось получить список ингредиентов!",
+                            "Запрашиваемой страницы не существует! (from BurgerIngredients)",
                             error.message
                         );
                     }
-                });
-        };
-        void fetchProducts();
-    }, []);
-
-    const handleModalOpen = () => {
-        setIsOpenModal(true);
+                } else if (error.request) {
+                    AlertError(
+                        "Не правильные параметры запроса!",
+                        error.message
+                    );
+                } else {
+                    AlertError(
+                        "Не удалось получить список ингредиентов для конструктора!",
+                        error.message
+                    );
+                }
+            });
     };
 
     const handleModalClose = () => {
         setIsOpenModal(false);
     };
-
-    if (isLoading) return <Spinner />;
 
     return (
         <>
@@ -105,14 +104,14 @@ export const Order: React.FC = () => {
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">
-                            {totalPrice}
+                            {totalPriceState.totalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>
                     <Button
                         type="primary"
                         size="large"
-                        onClick={handleModalOpen}
+                        onClick={handleMakeOrderClick}
                     >
                         Оформить заказ
                     </Button>
@@ -120,7 +119,11 @@ export const Order: React.FC = () => {
             </section>
             <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
                 <Modal.Content>
-                    <OrderDetails />
+                    {isLoading ? (
+                        <Spinner />
+                    ) : (
+                        <OrderDetails orderDetails={orderDetails} />
+                    )}
                 </Modal.Content>
             </Modal>
         </>
