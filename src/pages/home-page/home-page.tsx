@@ -1,10 +1,10 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
+import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
-import { AxiosError } from "axios";
 import { BurgerIngredients, Layout, Order } from "components";
-import { BurgerContext, TotalPriceContext } from "context/burger";
-import { IIngredient } from "types/ingredient";
-import { fetchBurgerIngredients } from "api/menu";
+import { TotalPriceContext } from "context/burger";
+import { useTypedSelector } from "hooks/useTypedSelector";
+import { fetchBurgerIngredients } from "services/reducers/burger-ingredients";
 import { Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
 import { getErrorStatus } from "utils/error";
@@ -27,68 +27,65 @@ function reducer(state, action) {
 }
 
 export const HomePage: React.FC = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
     const [totalPriceState, totalPriceDispatcher] = useReducer(
         reducer,
         initialState,
         undefined
     );
+    const dispatch = useDispatch();
+    const { ingredientsRequest, ingredientsError } = useTypedSelector(
+        state => state.burgerIngredients
+    );
 
     useEffect(() => {
-        const fetchIngredients = () => {
-            setIsLoading(true);
-            fetchBurgerIngredients()
-                .then(response => {
-                    setIngredients(response.data);
-                    setIsLoading(false);
-                })
-                .catch(error => {
-                    setIsLoading(false);
-                    if (error.response) {
-                        const errorStatus = getErrorStatus(error as AxiosError);
+        if (!ingredientsRequest) {
+            dispatch(fetchBurgerIngredients());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
 
-                        if (errorStatus === 404) {
-                            AlertError(
-                                "Запрашиваемой страницы не существует! (from BurgerIngredients)",
-                                error.message
-                            );
-                        }
-                    } else if (error.request) {
-                        AlertError(
-                            "Не правильные параметры запроса!",
-                            error.message
-                        );
-                    } else {
-                        AlertError(
-                            "Не удалось получить список ингредиентов для конструктора!",
-                            error.message
-                        );
-                    }
-                });
-        };
-        void fetchIngredients();
-    }, []);
+    useEffect(() => {
+        if (ingredientsError) {
+            if (ingredientsError.response) {
+                const errorStatus = getErrorStatus(ingredientsError);
+
+                if (errorStatus === 404) {
+                    AlertError(
+                        "Запрашиваемой страницы не существует! (from BurgerIngredients)",
+                        ingredientsError.message
+                    );
+                }
+            } else if (ingredientsError.request) {
+                AlertError(
+                    "Не правильные параметры запроса!",
+                    ingredientsError.message
+                );
+            } else {
+                AlertError(
+                    "Не удалось получить список ингредиентов для конструктора!",
+                    ingredientsError.message
+                );
+            }
+        }
+    }, [ingredientsError]);
 
     return (
-        <BurgerContext.Provider value={ingredients}>
-            <TotalPriceContext.Provider
-                value={{ totalPriceState, totalPriceDispatcher }}
-            >
-                <Layout>
-                    <ErrorPopup />
-                    <div className={classes.HomePage}>
-                        {isLoading ? (
-                            <Spinner />
-                        ) : (
-                            <>
-                                <BurgerIngredients />
-                                <Order />
-                            </>
-                        )}
-                    </div>
-                </Layout>
-            </TotalPriceContext.Provider>
-        </BurgerContext.Provider>
+        <TotalPriceContext.Provider
+            value={{ totalPriceState, totalPriceDispatcher }}
+        >
+            <Layout>
+                <ErrorPopup />
+                <div className={classes.HomePage}>
+                    {ingredientsRequest ? (
+                        <Spinner />
+                    ) : (
+                        <>
+                            <BurgerIngredients />
+                            <Order />
+                        </>
+                    )}
+                </div>
+            </Layout>
+        </TotalPriceContext.Provider>
     );
 };

@@ -1,6 +1,7 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
+import { useTypedSelector } from "hooks/useTypedSelector";
 import {
     Button,
     CurrencyIcon,
@@ -9,7 +10,7 @@ import { AxiosError } from "axios";
 import cn from "classnames";
 import { fetchMakeOrder } from "api/order";
 import { BurgerConstructor, OrderDetails } from "components";
-import { BurgerContext, TotalPriceContext } from "context/burger";
+import { TotalPriceContext } from "context/burger";
 import { IOrderDetails } from "types/order";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
@@ -20,7 +21,7 @@ export const Order: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [orderDetails, setOrderDetails] = useState<IOrderDetails>();
-    const ingredients = useContext(BurgerContext);
+    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
     const { totalPriceState, totalPriceDispatcher } =
         useContext(TotalPriceContext);
 

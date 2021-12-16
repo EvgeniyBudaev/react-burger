@@ -1,11 +1,11 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { MutableRefObject, useContext, useMemo, useRef } from "react";
+import React, { MutableRefObject, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer as ErrorPopup } from "react-toastify";
+import { useTypedSelector } from "hooks/useTypedSelector";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { Menu } from "components";
-import { BurgerContext } from "context/burger";
 import { newGuid } from "utils/guid";
 import classes from "./burger-ingredients.module.css";
 
@@ -13,7 +13,7 @@ export const BurgerIngredients: React.FC = () => {
     const [currentTab, setCurrentTab] = React.useState<string>(
         INGREDIENT_TYPE.BUN
     );
-    const ingredients = useContext(BurgerContext);
+    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
     const navigate = useNavigate();
     const titleToScrollRef = useRef<MutableRefObject<HTMLDivElement>>({
         current: null,
