@@ -1,33 +1,33 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useDispatch } from "react-redux";
 import {
     Button,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { AxiosError } from "axios";
 import cn from "classnames";
-import { fetchMakeOrder } from "api/order";
+
 import { BurgerConstructor, OrderDetails } from "components";
-import { TotalPriceContext } from "context/burger";
-import { IOrderDetails } from "types/order";
+import { useTypedSelector } from "hooks/useTypedSelector";
+import { fetchMakeOrder } from "services/order-details";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
 import { getErrorStatus } from "utils/error";
 import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
-    const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [orderDetails, setOrderDetails] = useState<IOrderDetails>();
-    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
-    const { totalPriceState, totalPriceDispatcher } =
-        useContext(TotalPriceContext);
-
-    useEffect(() => {
-        totalPriceDispatcher({ type: "sum", payload: ingredients });
-    }, [ingredients, totalPriceDispatcher]);
+    const { ingredients, ingredientsRequest, ingredientsError } =
+        useTypedSelector(state => state.burgerIngredients);
+    const { details, detailsRequest, detailsError } = useTypedSelector(
+        state => state.orderDetails
+    );
+    const dispatch = useDispatch();
+    const totalPrice = ingredients.reduce(
+        (acc, current) => acc + current.price,
+        0
+    );
 
     const buns = useMemo(() => {
         return (
@@ -52,40 +52,39 @@ export const Order: React.FC = () => {
     const lastBun = buns && buns[0];
 
     const handleMakeOrderClick = () => {
-        setIsLoading(true);
         const options = {
             ingredients: orderIds,
         };
-        fetchMakeOrder(options)
-            .then(response => {
-                setIsLoading(false);
-                setOrderDetails(response);
-                setIsOpenModal(true);
-            })
-            .catch(error => {
-                setIsLoading(false);
-                if (error.response) {
-                    const errorStatus = getErrorStatus(error as AxiosError);
+        if (!detailsRequest) {
+            dispatch(fetchMakeOrder(options));
+            setIsOpenModal(true);
+        }
+    };
 
-                    if (errorStatus === 404) {
-                        AlertError(
-                            "Запрашиваемой страницы не существует! (from BurgerIngredients)",
-                            error.message
-                        );
-                    }
-                } else if (error.request) {
+    useEffect(() => {
+        if (detailsError) {
+            if (detailsError.response) {
+                const errorStatus = getErrorStatus(detailsError);
+
+                if (errorStatus === 404) {
                     AlertError(
-                        "Не правильные параметры запроса!",
-                        error.message
-                    );
-                } else {
-                    AlertError(
-                        "Не удалось получить список ингредиентов для конструктора!",
-                        error.message
+                        "Запрашиваемой страницы не существует! (from BurgerIngredients)",
+                        detailsError.message
                     );
                 }
-            });
-    };
+            } else if (detailsError.request) {
+                AlertError(
+                    "Не правильные параметры запроса!",
+                    detailsError.message
+                );
+            } else {
+                AlertError(
+                    "Не удалось получить детали заказ!",
+                    detailsError.message
+                );
+            }
+        }
+    }, [detailsError]);
 
     const handleModalClose = () => {
         setIsOpenModal(false);
@@ -105,7 +104,7 @@ export const Order: React.FC = () => {
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">
-                            {totalPriceState.totalPrice}
+                            {totalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>
@@ -119,10 +118,10 @@ export const Order: React.FC = () => {
                 </div>
             </section>
             <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
-                {isLoading ? (
+                {detailsRequest ? (
                     <Spinner />
                 ) : (
-                    <OrderDetails orderDetails={orderDetails} />
+                    <OrderDetails orderDetails={details} />
                 )}
             </Modal>
         </>

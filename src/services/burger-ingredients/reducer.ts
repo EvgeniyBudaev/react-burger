@@ -4,7 +4,7 @@ import { IIngredient } from "types/ingredient";
 import {
     ActionTypes,
     BurgerIngredientsActionsType,
-} from "services/reducers/burger-ingredients";
+} from "services/burger-ingredients/index";
 
 interface IBurgerIngredientsState {
     ingredients: IIngredient[];

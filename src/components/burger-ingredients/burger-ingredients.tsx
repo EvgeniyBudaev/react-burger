@@ -1,7 +1,6 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { MutableRefObject, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer as ErrorPopup } from "react-toastify";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
@@ -62,7 +61,6 @@ export const BurgerIngredients: React.FC = () => {
 
     return (
         <section className={cn("mb-10 mt-10", classes.BurgerIngredients)}>
-            <ErrorPopup />
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
             <div className={cn("mb-10", classes.Tabs)}>
                 <Tab

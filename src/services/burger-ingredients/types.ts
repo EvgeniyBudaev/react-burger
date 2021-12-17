@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { ActionTypes } from "services/reducers/burger-ingredients";
+import { ActionTypes } from "services/burger-ingredients";
 import { IIngredient } from "types/ingredient";
 
 export interface IActionBurgerIngredientsRequest {
