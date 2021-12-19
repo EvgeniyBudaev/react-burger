@@ -36,7 +36,9 @@ export const reducer: Reducer<
         case ActionTypes.GET_BURGER_INGREDIENTS_SUCCESS:
             return {
                 ...state,
-                ingredients: action.payload,
+                ingredients: [...action.payload].map(item => {
+                    return { ...item, count: 0 };
+                }),
                 ingredientsRequest: false,
             };
         case ActionTypes.GET_BURGER_INGREDIENTS_FAILED:

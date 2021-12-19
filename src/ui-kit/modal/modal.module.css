@@ -13,6 +13,7 @@
 }
 
 .ModalDefault__medium {
+    min-height: 418px;
     min-width: 720px;
     max-width: 720px;
     width: 100%;

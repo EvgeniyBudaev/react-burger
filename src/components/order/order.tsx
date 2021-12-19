@@ -1,4 +1,3 @@
-import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -7,7 +6,7 @@ import {
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-
+import isEmpty from "lodash/isEmpty";
 import { BurgerConstructor, OrderDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { fetchMakeOrder } from "services/order-details";
@@ -18,38 +17,23 @@ import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const { ingredients, ingredientsRequest, ingredientsError } =
-        useTypedSelector(state => state.burgerIngredients);
+    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
+    const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
     const { details, detailsRequest, detailsError } = useTypedSelector(
         state => state.orderDetails
     );
     const dispatch = useDispatch();
-    const totalPrice = ingredients.reduce(
-        (acc, current) => acc + current.price,
-        0
-    );
+    const mainsTotalPrice = useMemo(() => {
+        if (mains) {
+            return mains.reduce((acc, current) => acc + current.price, 0);
+        }
+    }, [mains]);
+    const bunsTotalPrice = !isEmpty(bun) && bun.price * 2;
+    const totalPrice = mainsTotalPrice + bunsTotalPrice;
 
-    const buns = useMemo(() => {
-        return (
-            ingredients &&
-            ingredients.filter(
-                ingredient => ingredient.type === INGREDIENT_TYPE.BUN
-            )
-        );
-    }, [ingredients]);
-    const mains = useMemo(() => {
-        return (
-            ingredients &&
-            ingredients.filter(
-                ingredient => ingredient.type !== INGREDIENT_TYPE.BUN
-            )
-        );
-    }, [ingredients]);
     const orderIds = useMemo(() => {
         return ingredients && ingredients.map(ingredient => ingredient._id);
     }, [ingredients]);
-    const firstBun = buns && buns[0];
-    const lastBun = buns && buns[0];
 
     const handleMakeOrderClick = () => {
         const options = {
@@ -94,13 +78,7 @@ export const Order: React.FC = () => {
         <>
             <ErrorPopup />
             <section className={cn("mb-10 mt-25 pr-2 pl-2", classes.Order)}>
-                {mains && firstBun && lastBun && (
-                    <BurgerConstructor
-                        ingredients={mains}
-                        lastBun={lastBun}
-                        firstBun={firstBun}
-                    />
-                )}
+                <BurgerConstructor />
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">

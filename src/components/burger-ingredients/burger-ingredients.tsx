@@ -1,10 +1,10 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { MutableRefObject, useMemo, useRef } from "react";
+import React, { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTypedSelector } from "hooks/useTypedSelector";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { Menu } from "components";
+import { useTypedSelector } from "hooks/useTypedSelector";
 import { newGuid } from "utils/guid";
 import classes from "./burger-ingredients.module.css";
 
@@ -18,7 +18,7 @@ export const BurgerIngredients: React.FC = () => {
         current: null,
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         titleToScrollRef.current[currentTab]?.scrollIntoView({
             behavior: "smooth",
         });

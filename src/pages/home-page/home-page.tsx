@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import { BurgerIngredients, Layout, Order } from "components";
@@ -54,10 +56,10 @@ export const HomePage: React.FC = () => {
                 {ingredientsRequest ? (
                     <Spinner />
                 ) : (
-                    <>
+                    <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients />
                         <Order />
-                    </>
+                    </DndProvider>
                 )}
             </div>
         </Layout>
