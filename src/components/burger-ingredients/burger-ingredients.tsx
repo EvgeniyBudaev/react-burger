@@ -1,10 +1,13 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { Menu } from "components";
+import { IngredientDetails, Menu } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
+import { hideIngredientDetails } from "services/ingredient-details";
+import { Modal } from "ui-kit";
 import { newGuid } from "utils/guid";
 import classes from "./burger-ingredients.module.css";
 
@@ -13,7 +16,11 @@ export const BurgerIngredients: React.FC = () => {
         INGREDIENT_TYPE.BUN
     );
     const { ingredients } = useTypedSelector(state => state.burgerIngredients);
+    const { ingredientDetailsId, iSIngredientDetailsActive } = useTypedSelector(
+        state => state.ingredientDetails
+    );
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const titleToScrollRef = useRef<MutableRefObject<HTMLDivElement>>({
         current: null,
     });
@@ -59,6 +66,19 @@ export const BurgerIngredients: React.FC = () => {
         navigate(`/#${value}`);
     };
 
+    const handleIngredientDetailsClose = () => {
+        dispatch(hideIngredientDetails());
+    };
+
+    const ingredientDetails = useMemo(() => {
+        return (
+            ingredients &&
+            ingredients.find(
+                ingredient => ingredient._id === ingredientDetailsId
+            )
+        );
+    }, [ingredientDetailsId, ingredients]);
+
     return (
         <section className={cn("mb-10 mt-10", classes.BurgerIngredients)}>
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -86,6 +106,22 @@ export const BurgerIngredients: React.FC = () => {
                 </Tab>
             </div>
             <Menu menu={ingredientsListFiltered} ref={titleToScrollRef} />
+            {iSIngredientDetailsActive && (
+                <Modal
+                    title="Детали ингредиента"
+                    isOpen={iSIngredientDetailsActive}
+                    onCloseModal={handleIngredientDetailsClose}
+                >
+                    <IngredientDetails
+                        calories={ingredientDetails.calories}
+                        carbohydrates={ingredientDetails.carbohydrates}
+                        image={ingredientDetails.image_large}
+                        fat={ingredientDetails.fat}
+                        name={ingredientDetails.name}
+                        proteins={ingredientDetails.proteins}
+                    />
+                </Modal>
+            )}
         </section>
     );
 };

@@ -51,7 +51,7 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
     const dispatch = useDispatch();
     const ref = useRef(null);
 
-    const [{ isDrag }, dragRef] = useDrag({
+    const [, dragRef] = useDrag({
         type: "movingIngredient",
         item: { index: index },
         collect: monitor => ({
