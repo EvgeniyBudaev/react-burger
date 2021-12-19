@@ -12,6 +12,7 @@ export interface IModalProps {
     className?: string;
     children?: React.ReactNode;
     size?: IModalSize;
+    title?: string;
     isOpen: boolean;
     onCloseModal: () => void;
 }
@@ -22,6 +23,7 @@ export const Modal = ({
     className,
     children,
     size = "medium",
+    title,
     isOpen,
     onCloseModal,
 }: IModalProps): JSX.Element => {
@@ -53,53 +55,17 @@ export const Modal = ({
     }, [isOpen]);
 
     return ReactDOM.createPortal(
-        <>
-            <ReactModal
-                classNames={defaultClassNames}
-                center
-                closeIcon={<Icon type="Close" />}
-                styles={styles}
-                open={isOpen}
-                onClose={onCloseModal}
-            >
-                <div className="Modal">{children}</div>
-            </ReactModal>
-        </>,
-        modalRoot
-    );
-};
-
-interface IModalHeaderProps {
-    className?: string;
-    align?: "start" | "center" | "end";
-    children?: React.ReactNode;
-}
-
-Modal.Header = ({
-    className,
-    align,
-    children,
-}: IModalHeaderProps): JSX.Element => {
-    return (
-        <div
-            className={cn(classes.ModalHeader, className, {
-                ModalHeader__start: align === "start",
-                ModalHeader__center: align === "center",
-                ModalHeader__end: align === "end",
-            })}
+        <ReactModal
+            classNames={defaultClassNames}
+            center
+            closeIcon={<Icon type="Close" />}
+            styles={styles}
+            open={isOpen}
+            onClose={onCloseModal}
         >
-            {children}
-        </div>
-    );
-};
-
-interface IModalContentProps {
-    className?: string;
-    children?: React.ReactNode;
-}
-
-Modal.Content = ({ className, children }: IModalContentProps): JSX.Element => {
-    return (
-        <div className={cn(classes.ModalContent, className)}>{children}</div>
+            <p className="text text_type_main-large">{title}</p>
+            <div className="Modal">{children}</div>
+        </ReactModal>,
+        modalRoot
     );
 };

@@ -1,34 +1,47 @@
 import React from "react";
+import { useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 import { ConstructorElement } from "components";
-import { Scrollbar } from "ui-kit";
+import { useTypedSelector } from "hooks/useTypedSelector";
+import { addIngredient } from "services/burger-constructor";
 import { IIngredient } from "types/ingredient";
+import { Scrollbar } from "ui-kit";
+import { newGuid } from "utils/guid";
 
-export interface IBurgerConstructorProps {
-    ingredients: IIngredient[];
-    lastBun: IIngredient;
-    firstBun: IIngredient;
-}
+export const BurgerConstructor: React.FC = () => {
+    const defaultImageUrl =
+        "https://toppng.com/uploads/preview/burger-svg-icon-free-burger-icon-11553410767qjmzrectv3.png";
+    const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
+    const dispatch = useDispatch();
 
-export const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
-    ingredients,
-    lastBun,
-    firstBun,
-}) => {
+    const [, dropRef] = useDrop({
+        accept: "ingredient",
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item: IIngredient) {
+            const itemWithId = { ...item, id: newGuid() };
+            dispatch(addIngredient(itemWithId));
+        },
+    });
+
     return (
-        <ul className="mb-10">
+        <ul className="mb-10" ref={dropRef}>
             <ConstructorElement
-                calories={firstBun.calories}
-                carbohydrates={firstBun.carbohydrates}
-                fat={firstBun.fat}
-                image_large={firstBun.image_large}
+                calories={!isEmpty(bun) ? bun.calories : 0}
+                carbohydrates={!isEmpty(bun) ? bun.carbohydrates : 0}
+                fat={!isEmpty(bun) ? bun.fat : 0}
+                image_large={!isEmpty(bun) ? bun.image_large : ""}
+                _id={!isEmpty(bun) ? bun._id : ""}
                 isLocked={true}
-                name={firstBun.name}
-                price={firstBun.price}
-                proteins={firstBun.proteins}
-                text={`${firstBun.name} (верх)`}
-                thumbnail={firstBun.image_mobile}
+                name={!isEmpty(bun) ? bun.name : ""}
+                price={!isEmpty(bun) ? bun.price : 0}
+                proteins={!isEmpty(bun) ? bun.proteins : 0}
+                text={!isEmpty(bun) ? `${bun.name} (верх)` : ""}
+                thumbnail={!isEmpty(bun) ? bun.image_mobile : defaultImageUrl}
                 type="top"
-                typeIngredient={firstBun.type}
+                typeIngredient={!isEmpty(bun) ? bun.type : "bun"}
             />
             <Scrollbar
                 autoHeight
@@ -36,36 +49,39 @@ export const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
                 autoHeightMax={469}
                 hideTracksWhenNotNeeded
             >
-                {ingredients &&
-                    ingredients.map(ingredient => (
+                {mains &&
+                    mains.map((main, index) => (
                         <ConstructorElement
-                            key={ingredient._id}
-                            calories={ingredient.calories}
-                            carbohydrates={ingredient.carbohydrates}
-                            fat={ingredient.fat}
-                            image_large={ingredient.image_large}
-                            name={ingredient.name}
-                            price={ingredient.price}
-                            proteins={ingredient.proteins}
-                            text={ingredient.name}
-                            thumbnail={ingredient.image_mobile}
-                            typeIngredient={ingredient.type}
+                            key={main._id}
+                            calories={main.calories}
+                            carbohydrates={main.carbohydrates}
+                            fat={main.fat}
+                            _id={main._id}
+                            index={index}
+                            image_large={main.image_large}
+                            name={main.name}
+                            price={main.price}
+                            proteins={main.proteins}
+                            text={main.name}
+                            thumbnail={main.image_mobile}
+                            typeIngredient={main.type}
                         />
                     ))}
             </Scrollbar>
             <ConstructorElement
-                calories={lastBun.calories}
-                carbohydrates={lastBun.carbohydrates}
-                fat={lastBun.fat}
-                image_large={lastBun.image_large}
+                calories={!isEmpty(bun) ? bun.calories : 0}
+                carbohydrates={!isEmpty(bun) ? bun.carbohydrates : 0}
+                fat={!isEmpty(bun) ? bun.fat : 0}
+                image_large={!isEmpty(bun) ? bun.image_large : ""}
+                _id={!isEmpty(bun) ? bun._id : ""}
                 isLocked={true}
-                name={lastBun.name}
-                price={lastBun.price}
-                proteins={lastBun.proteins}
-                text={`${lastBun.name} (низ)`}
-                thumbnail={lastBun.image_mobile}
+                name={!isEmpty(bun) ? bun.name : ""}
+                price={!isEmpty(bun) ? bun.price : 0}
+                proteins={!isEmpty(bun) ? bun.proteins : 0}
+                text={!isEmpty(bun) ? `${bun.name} (низ)` : ""}
+                thumbnail={!isEmpty(bun) ? bun.image_mobile : defaultImageUrl}
                 type="bottom"
-                typeIngredient={lastBun.type}
+                typeIngredient={!isEmpty(bun) ? bun.type : "bun"}
             />
         </ul>
     );

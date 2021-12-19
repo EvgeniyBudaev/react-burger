@@ -28,52 +28,43 @@ export const Menu = forwardRef(
         const menuRef = useRef<HTMLDivElement>(null);
 
         return (
-            <>
-                <Scrollbar
-                    autoHeight
-                    autoHeightMin={600}
-                    autoHeightMax={600}
-                    hideTracksWhenNotNeeded
-                >
-                    <>
-                        {menu.map(item => (
-                            <React.Fragment key={item.id}>
-                                <>
-                                    <div
-                                        className="text text_type_main-medium mb-6"
-                                        ref={node => {
-                                            menuRef.current = node;
-                                            if (typeof ref === "function") {
-                                                ref(node);
-                                            } else if (ref) {
-                                                (
-                                                    ref as MutableRefObject<HTMLDivElement>
-                                                ).current[item.type] = node;
-                                            }
-                                        }}
-                                    >
-                                        {getMenuTitle(item.type)}
-                                    </div>
-                                    <ul
-                                        className={cn(
-                                            "mb-10 pl-4 pr-4",
-                                            classes.List
-                                        )}
-                                    >
-                                        {item.list &&
-                                            item.list.map(ingredient => (
-                                                <Ingredient
-                                                    key={ingredient._id}
-                                                    ingredient={ingredient}
-                                                />
-                                            ))}
-                                    </ul>
-                                </>
-                            </React.Fragment>
-                        ))}
-                    </>
-                </Scrollbar>
-            </>
+            <Scrollbar
+                autoHeight
+                autoHeightMin={600}
+                autoHeightMax={600}
+                hideTracksWhenNotNeeded
+            >
+                {menu.map(item => (
+                    <React.Fragment key={item.id}>
+                        <>
+                            <div
+                                className="text text_type_main-medium mb-6"
+                                ref={node => {
+                                    menuRef.current = node;
+                                    if (typeof ref === "function") {
+                                        ref(node);
+                                    } else if (ref) {
+                                        (
+                                            ref as MutableRefObject<HTMLDivElement>
+                                        ).current[item.type] = node;
+                                    }
+                                }}
+                            >
+                                {getMenuTitle(item.type)}
+                            </div>
+                            <ul className={cn("mb-10 pl-4 pr-4", classes.List)}>
+                                {item.list &&
+                                    item.list.map(ingredient => (
+                                        <Ingredient
+                                            key={ingredient._id}
+                                            ingredient={ingredient}
+                                        />
+                                    ))}
+                            </ul>
+                        </>
+                    </React.Fragment>
+                ))}
+            </Scrollbar>
         );
     }
 );

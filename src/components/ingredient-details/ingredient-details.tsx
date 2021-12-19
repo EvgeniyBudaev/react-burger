@@ -3,8 +3,8 @@ import cn from "classnames";
 import classes from "./ingredient-details.module.css";
 
 export interface IIngredientDetailsProps {
-    calories: number;
-    carbohydrates: number;
+    calories?: number;
+    carbohydrates?: number;
     image?: string;
     fat?: number;
     name?: string;

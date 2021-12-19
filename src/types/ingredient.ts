@@ -1,6 +1,7 @@
 export interface IIngredient {
     calories: number;
     carbohydrates: number;
+    count?: number;
     _id: string;
     image: string;
     image_large: string;
