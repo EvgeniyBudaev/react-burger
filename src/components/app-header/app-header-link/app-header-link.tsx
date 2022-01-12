@@ -27,7 +27,7 @@ export const AppHeaderLink: React.FC<IAppHeaderLink> = ({
                 }
                 to={routeTo}
             >
-                {getIconByType(iconType, isActiveLink)}
+                {iconType && getIconByType(iconType, isActiveLink)}
                 <p className="text text_type_main-default text_color_inactive">
                     {title}
                 </p>

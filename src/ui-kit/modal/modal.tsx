@@ -54,6 +54,8 @@ export const Modal = ({
         };
     }, [isOpen]);
 
+    if (!modalRoot) return <>Не найден DOM элемент react-modals</>;
+
     return ReactDOM.createPortal(
         <ReactModal
             classNames={defaultClassNames}

@@ -11,7 +11,13 @@ interface IOrderDetailsState {
 }
 
 const initialState: IOrderDetailsState = {
-    details: null,
+    details: {
+        name: "",
+        order: {
+            number: 0,
+        },
+        success: false,
+    },
     detailsRequest: false,
     detailsFailed: false,
     detailsError: null,

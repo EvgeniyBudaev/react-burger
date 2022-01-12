@@ -28,8 +28,7 @@ export const Order: React.FC = () => {
             return mains.reduce((acc, current) => acc + current.price, 0);
         }
     }, [mains]);
-    const bunsTotalPrice = !isEmpty(bun) && bun.price * 2;
-    const totalPrice = mainsTotalPrice + bunsTotalPrice;
+    const bunsTotalPrice = bun.price * 2;
 
     const orderIds = useMemo(() => {
         return ingredients && ingredients.map(ingredient => ingredient._id);
@@ -82,7 +81,8 @@ export const Order: React.FC = () => {
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">
-                            {totalPrice}
+                            {mainsTotalPrice &&
+                                mainsTotalPrice + bunsTotalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>

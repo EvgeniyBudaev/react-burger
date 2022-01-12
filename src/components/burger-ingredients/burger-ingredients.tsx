@@ -21,14 +21,14 @@ export const BurgerIngredients: React.FC = () => {
     );
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const titleToScrollRef = useRef<MutableRefObject<HTMLDivElement>>({
-        current: null,
-    });
+    const titleToScrollRef = useRef<MutableRefObject<HTMLDivElement>>(null);
 
     useEffect(() => {
-        titleToScrollRef.current[currentTab]?.scrollIntoView({
-            behavior: "smooth",
-        });
+        if (titleToScrollRef.current) {
+            titleToScrollRef.current[currentTab]?.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
     }, [currentTab]);
 
     const buns = useMemo(() => {
@@ -106,7 +106,7 @@ export const BurgerIngredients: React.FC = () => {
                 </Tab>
             </div>
             <Menu menu={ingredientsListFiltered} ref={titleToScrollRef} />
-            {iSIngredientDetailsActive && (
+            {iSIngredientDetailsActive && ingredientDetails && (
                 <Modal
                     title="Детали ингредиента"
                     isOpen={iSIngredientDetailsActive}

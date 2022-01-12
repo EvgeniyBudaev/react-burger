@@ -23,10 +23,10 @@ export interface IConstructorElementProps {
     index?: number;
     isLocked?: boolean;
     name?: string;
-    price?: number;
+    price: number;
     proteins?: number;
-    text?: string;
-    thumbnail?: string;
+    text: string;
+    thumbnail: string;
     type?: ConstructorElementType;
     typeIngredient?: string;
 }
@@ -73,8 +73,10 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
             if (dragIndex === hoverIndex) {
                 return;
             }
-            dispatch(moveIngredients(dragIndex, hoverIndex));
-            item.index = hoverIndex;
+            hoverIndex && dispatch(moveIngredients(dragIndex, hoverIndex));
+            if (hoverIndex != null) {
+                item.index = hoverIndex;
+            }
         },
     });
 
@@ -89,7 +91,7 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
     };
 
     const handleRemoveIngredient = () => {
-        dispatch(deleteIngredient(index));
+        index && dispatch(deleteIngredient(index));
     };
 
     return (
