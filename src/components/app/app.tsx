@@ -1,14 +1,16 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { ROUTES } from "routes";
-import { HomePage } from "pages";
+import { HomePage, LoginPage, RegisterPage } from "pages";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/index.css";
 
 export const App: React.FC = () => {
     return (
-        <Routes>
-            <Route path={ROUTES.HOME} element={<HomePage />} />
-        </Routes>
+        <Switch>
+            <Route path={ROUTES.HOME} component={HomePage} exact />
+            <Route path={ROUTES.LOGIN} component={LoginPage} exact />
+            <Route path={ROUTES.REGISTER} component={RegisterPage} exact />
+        </Switch>
     );
 };

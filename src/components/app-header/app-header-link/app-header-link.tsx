@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import cn from "classnames";
 import { getIconByType } from "utils/icon";
 import classes from "./app-header-link.module.css";
 
@@ -22,9 +23,9 @@ export const AppHeaderLink: React.FC<IAppHeaderLink> = ({
     return (
         <div className={classes.AppHeaderLink}>
             <NavLink
-                className={({ isActive }) =>
-                    isActive ? classes.Link__active : classes.Link
-                }
+                className={cn(classes.Link, {
+                    [classes.Link__active]: isActiveLink,
+                })}
                 to={routeTo}
             >
                 {iconType && getIconByType(iconType, isActiveLink)}

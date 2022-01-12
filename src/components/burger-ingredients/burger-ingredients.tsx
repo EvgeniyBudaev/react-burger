@@ -1,6 +1,6 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { MutableRefObject, useEffect, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
@@ -19,9 +19,11 @@ export const BurgerIngredients: React.FC = () => {
     const { ingredientDetailsId, iSIngredientDetailsActive } = useTypedSelector(
         state => state.ingredientDetails
     );
-    const navigate = useNavigate();
+    const history = useHistory();
     const dispatch = useDispatch();
-    const titleToScrollRef = useRef<MutableRefObject<HTMLDivElement>>(null);
+    const titleToScrollRef = useRef({
+        current: null,
+    });
 
     useEffect(() => {
         if (titleToScrollRef.current) {
@@ -63,7 +65,7 @@ export const BurgerIngredients: React.FC = () => {
 
     const handleChangeTab = (value: string) => {
         setCurrentTab(value);
-        navigate(`/#${value}`);
+        history.push(`/#${value}`);
     };
 
     const handleIngredientDetailsClose = () => {
