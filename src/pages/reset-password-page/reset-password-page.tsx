@@ -23,6 +23,7 @@ export const ResetPasswordPage: React.FC = () => {
         token: "",
     });
     const {
+        emailSent,
         passwordReseted,
         error,
         resetPasswordRequest: isLoading,
@@ -63,6 +64,10 @@ export const ResetPasswordPage: React.FC = () => {
         return <Redirect to={ROUTES.LOGIN} />;
     }
 
+    if (!emailSent) {
+        return <Redirect to={ROUTES.FORGOT_PASSWORD} />;
+    }
+
     return (
         <Layout>
             <ErrorPopup />
@@ -74,7 +79,7 @@ export const ResetPasswordPage: React.FC = () => {
                             classes.Title
                         )}
                     >
-                        Вход
+                        Восстановление пароля
                     </p>
                     <form className={classes.Form} onSubmit={handleSubmitForm}>
                         <div className={classes.FormItem}>
@@ -87,6 +92,7 @@ export const ResetPasswordPage: React.FC = () => {
                         <div className={classes.FormItem}>
                             <Input
                                 name="token"
+                                placeholder="Введите код из письма"
                                 value={formState.token}
                                 onChange={handleChange}
                             />

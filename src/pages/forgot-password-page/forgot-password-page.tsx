@@ -72,7 +72,7 @@ export const ForgotPasswordPage: React.FC = () => {
                             classes.Title
                         )}
                     >
-                        Вход
+                        Восстановление пароля
                     </p>
                     <form className={classes.Form} onSubmit={handleSubmitForm}>
                         <div className={classes.FormItem}>
