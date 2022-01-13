@@ -12,6 +12,7 @@ import Menu from "./menu";
 import Order from "./order";
 import OrderDetails from "./order-details";
 import ProfileDetails from "./profile-details";
+import ProtectedRoute from "./protected-route";
 
 export {
     App,
@@ -28,4 +29,5 @@ export {
     Order,
     OrderDetails,
     ProfileDetails,
+    ProtectedRoute,
 };

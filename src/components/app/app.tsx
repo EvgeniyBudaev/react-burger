@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { ProtectedRoute } from "components";
 import {
     ForgotPasswordPage,
     HomePage,
@@ -28,7 +29,11 @@ export const App: React.FC = () => {
                 component={ResetPasswordPage}
                 exact
             />
-            <Route path={ROUTES.PROFILE} component={ProfilePage} exact />
+            <ProtectedRoute path={ROUTES.PROFILE}>
+                <Route exact>
+                    <ProfilePage />
+                </Route>
+            </ProtectedRoute>
         </Switch>
     );
 };
