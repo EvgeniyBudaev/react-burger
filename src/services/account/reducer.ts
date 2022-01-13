@@ -14,6 +14,8 @@ interface IAccountState {
     forgotPasswordFailed: boolean;
     loginRequest: boolean;
     loginFailed: boolean;
+    logoutRequest: boolean;
+    logoutFailed: boolean;
     registerRequest: boolean;
     registerFailed: boolean;
     resetPasswordRequest: boolean;
@@ -32,6 +34,8 @@ const initialState: IAccountState = {
     forgotPasswordFailed: false,
     loginRequest: false,
     loginFailed: false,
+    logoutRequest: false,
+    logoutFailed: false,
     registerRequest: false,
     registerFailed: false,
     resetPasswordRequest: false,
@@ -136,6 +140,29 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 resetPasswordRequest: false,
                 resetPasswordFailed: true,
+                error: action.payload,
+            };
+        case ActionTypes.LOGOUT_USER_REQUEST: {
+            return {
+                ...state,
+                logoutRequest: true,
+                logoutFailed: false,
+                error: null,
+            };
+        }
+        case ActionTypes.LOGOUT_USER_SUCCESS:
+            return {
+                ...state,
+                accessToken: "",
+                logoutRequest: false,
+                refreshToken: "",
+                user: null,
+            };
+        case ActionTypes.LOGOUT_USER_FAILED:
+            return {
+                ...state,
+                logoutRequest: false,
+                logoutFailed: true,
                 error: action.payload,
             };
         default:

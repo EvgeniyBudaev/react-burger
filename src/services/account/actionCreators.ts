@@ -6,6 +6,7 @@ import {
     IForgotPasswordResponse,
     ILoginRequest,
     ILoginResponse,
+    ILogoutResponse,
     IRegisterRequest,
     IRegisterResponse,
     IResetPasswordRequest,
@@ -17,6 +18,7 @@ const LOGIN_URL = `${BASE_URL}auth/login`;
 const REGISTER_URL = `${BASE_URL}auth/register`;
 const FORGOT_PASSWORD_URL = `${BASE_URL}password-reset`;
 const RESET_PASSWORD_URL = `${BASE_URL}password-reset/reset`;
+const LOGOUT_URL = `${BASE_URL}auth/logout`;
 const config = {
     headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -135,3 +137,23 @@ export const resetPassword =
             });
         }
     };
+
+export const logout = (): ((dispatch) => Promise<void>) => async dispatch => {
+    const body = JSON.stringify({
+        token: getCookie("refreshToken"),
+    });
+    try {
+        dispatch({ type: ActionTypes.LOGOUT_USER_REQUEST });
+        await axios.post<ILogoutResponse>(LOGOUT_URL, body, config);
+        dispatch({
+            type: ActionTypes.LOGOUT_USER_SUCCESS,
+        });
+        setCookie("accessToken", "", {});
+        setCookie("refreshToken", "", {});
+    } catch (error) {
+        dispatch({
+            type: ActionTypes.LOGOUT_USER_FAILED,
+            payload: error,
+        });
+    }
+};

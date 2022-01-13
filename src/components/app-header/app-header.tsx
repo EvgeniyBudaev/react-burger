@@ -2,9 +2,9 @@ import React from "react";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ROUTES } from "routes";
 import cn from "classnames";
+import { CustomLink } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { Spacer } from "ui-kit";
-import { AppHeaderLink } from "./app-header-link";
 import classes from "./app-header.module.css";
 
 export const AppHeader: React.FC = () => {
@@ -14,12 +14,12 @@ export const AppHeader: React.FC = () => {
         <header className={cn("pb-4 pt-4", classes.AppHeader)}>
             <div className={cn("center_on_width", classes.Container)}>
                 <nav className={classes.Navigation}>
-                    <AppHeaderLink
+                    <CustomLink
                         iconType="burger"
                         routeTo={ROUTES.HOME}
                         title="Конструктор"
                     />
-                    <AppHeaderLink
+                    <CustomLink
                         iconType="list"
                         routeTo={ROUTES.ORDER_LIST}
                         title="Лента заказов"
@@ -29,13 +29,13 @@ export const AppHeader: React.FC = () => {
                 <Logo />
                 <Spacer />
                 {accessToken ? (
-                    <AppHeaderLink
+                    <CustomLink
                         iconType="profile"
-                        routeTo={ROUTES.PERSONAL_AREA}
+                        routeTo={ROUTES.PROFILE}
                         title="Личный кабинет"
                     />
                 ) : (
-                    <AppHeaderLink
+                    <CustomLink
                         iconType="profile"
                         routeTo={ROUTES.LOGIN}
                         title="Войти"

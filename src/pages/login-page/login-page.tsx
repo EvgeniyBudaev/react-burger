@@ -68,7 +68,7 @@ export const LoginPage: React.FC = () => {
         <Layout>
             <ErrorPopup />
             <section className={classes.LoginPage}>
-                <div className={classes.Inner}>
+                <div className={cn(classes.Inner)}>
                     <p
                         className={cn(
                             "text text_type_main-medium mb-6",
@@ -97,7 +97,7 @@ export const LoginPage: React.FC = () => {
                         </div>
                     </form>
                     <div className={classes.Footer}>
-                        <div className={classes.FooterRow}>
+                        <div className={cn("mb-4", classes.FooterRow)}>
                             <p
                                 className={cn(
                                     "text text_type_main-default text_color_inactive",
@@ -113,7 +113,7 @@ export const LoginPage: React.FC = () => {
                                 Зарегистрироваться
                             </Link>
                         </div>
-                        <div className={classes.FooterRow}>
+                        <div className={cn(classes.FooterRow)}>
                             <p
                                 className={cn(
                                     "text text_type_main-default text_color_inactive",

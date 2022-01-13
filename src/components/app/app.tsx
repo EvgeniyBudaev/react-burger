@@ -4,6 +4,7 @@ import {
     ForgotPasswordPage,
     HomePage,
     LoginPage,
+    ProfilePage,
     RegisterPage,
     ResetPasswordPage,
 } from "pages";
@@ -27,6 +28,7 @@ export const App: React.FC = () => {
                 component={ResetPasswordPage}
                 exact
             />
+            <Route path={ROUTES.PROFILE} component={ProfilePage} exact />
         </Switch>
     );
 };

@@ -1,3 +1,5 @@
+.CustomLink {}
+
 .Link,
 .Link__active {
     display: flex;

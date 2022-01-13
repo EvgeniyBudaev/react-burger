@@ -2,17 +2,19 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import cn from "classnames";
 import { getIconByType } from "utils/icon";
-import classes from "./app-header-link.module.css";
+import classes from "./custom-link.module.css";
 
 type IconType = "burger" | "list" | "profile";
 
-export interface IAppHeaderLink {
+export interface ICustomLink {
+    className?: string;
     iconType?: IconType;
     routeTo: string;
     title?: string;
 }
 
-export const AppHeaderLink: React.FC<IAppHeaderLink> = ({
+export const CustomLink: React.FC<ICustomLink> = ({
+    className,
     iconType,
     routeTo,
     title = "",
@@ -21,7 +23,7 @@ export const AppHeaderLink: React.FC<IAppHeaderLink> = ({
     const isActiveLink = location.pathname === routeTo;
 
     return (
-        <div className={classes.AppHeaderLink}>
+        <div className={cn(classes.CustomLink, className)}>
             <NavLink
                 className={cn(classes.Link, {
                     [classes.Link__active]: isActiveLink,
