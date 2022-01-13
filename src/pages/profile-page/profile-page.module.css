@@ -45,15 +45,3 @@
 .LogoutText:hover {
 	color: white;
 }
-
-.Form {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.FormItem {
-	margin: 0 auto 24px;
-	width: max-content;
-}

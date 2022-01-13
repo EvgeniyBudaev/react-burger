@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link, NavLink, Redirect } from "react-router-dom";
 import { ToastContainer as ErrorPopup } from "react-toastify";
-import {
-    Button,
-    EmailInput,
-    Input,
-    PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { CustomLink, Layout } from "components";
+import { CustomLink, Layout, ProfileDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { ROUTES } from "routes";
 import { logout } from "services/account";
@@ -19,22 +12,9 @@ import { getErrorStatus } from "utils/error";
 import classes from "./profile-page.module.css";
 
 export const ProfilePage: React.FC = () => {
-    const {
-        error,
-        logoutRequest: isLogoutLoading,
-        user,
-    } = useTypedSelector(state => state.account);
-    const [formState, setFormState] = useState({
-        email: "",
-        name: "",
-        password: "",
-    });
-
-    useEffect(() => {
-        if (user) {
-            setFormState({ ...formState, email: user.email, name: user.name });
-        }
-    }, [formState, user]);
+    const { error, logoutRequest: isLogoutLoading } = useTypedSelector(
+        state => state.account
+    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -56,19 +36,11 @@ export const ProfilePage: React.FC = () => {
         }
     }, [error]);
 
-    const handleChange = event => {
-        setFormState({ ...formState, [event.target.name]: event.target.value });
-    };
-
     const handleLogout = () => {
         dispatch(logout());
     };
 
     if (isLogoutLoading) return <Spinner />;
-
-    if (!user) {
-        return <Redirect to={ROUTES.LOGIN} />;
-    }
 
     return (
         <Layout>
@@ -107,31 +79,7 @@ export const ProfilePage: React.FC = () => {
                         </p>
                     </div>
                     <div className={classes.Right}>
-                        <form className={classes.Form}>
-                            <div className={classes.FormItem}>
-                                <Input
-                                    name="name"
-                                    placeholder="Имя"
-                                    type="text"
-                                    value={formState.name}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className={classes.FormItem}>
-                                <EmailInput
-                                    name="email"
-                                    value={formState.email}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className={classes.FormItem}>
-                                <PasswordInput
-                                    name="password"
-                                    value={formState.password}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </form>
+                        <ProfileDetails />
                     </div>
                 </div>
             </section>

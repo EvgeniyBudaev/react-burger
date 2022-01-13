@@ -11,6 +11,7 @@ import Layout from "./layout";
 import Menu from "./menu";
 import Order from "./order";
 import OrderDetails from "./order-details";
+import ProfileDetails from "./profile-details";
 
 export {
     App,
@@ -26,4 +27,5 @@ export {
     Menu,
     Order,
     OrderDetails,
+    ProfileDetails,
 };

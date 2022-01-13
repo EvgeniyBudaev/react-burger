@@ -55,6 +55,22 @@ export interface ILogoutResponse {
     success: boolean;
 }
 
+export interface IGetUserResponse {
+    success: boolean;
+    user: IUser;
+}
+
+export interface IUpdateUserRequest {
+    email: string;
+    name: string;
+    password: string;
+}
+
+export interface IUpdateUserResponse {
+    success: boolean;
+    user: IUser;
+}
+
 export interface IActionLoginRequest {
     type: ActionTypes.LOGIN_USER_REQUEST;
 }
@@ -122,6 +138,34 @@ export interface IActionLogoutFailed {
     payload: AxiosError;
 }
 
+export interface IActionGetUserRequest {
+    type: ActionTypes.GET_USER_REQUEST;
+}
+
+export interface IActionGetUserSuccess {
+    type: ActionTypes.GET_USER_SUCCESS;
+    payload: IUser;
+}
+
+export interface IActionGetUserFailed {
+    type: ActionTypes.GET_USER_FAILED;
+    payload: AxiosError;
+}
+
+export interface IActionUpdateUserRequest {
+    type: ActionTypes.UPDATE_USER_REQUEST;
+}
+
+export interface IActionUpdateUserSuccess {
+    type: ActionTypes.UPDATE_USER_SUCCESS;
+    payload: IUser;
+}
+
+export interface IActionUpdateUserFailed {
+    type: ActionTypes.UPDATE_USER_FAILED;
+    payload: AxiosError;
+}
+
 export type AccountActionsType =
     | IActionLoginRequest
     | IActionLoginSuccess
@@ -137,4 +181,10 @@ export type AccountActionsType =
     | IActionResetPasswordFailed
     | IActionLogoutRequest
     | IActionLogoutSuccess
-    | IActionLogoutFailed;
+    | IActionLogoutFailed
+    | IActionGetUserRequest
+    | IActionGetUserSuccess
+    | IActionGetUserFailed
+    | IActionUpdateUserRequest
+    | IActionUpdateUserSuccess
+    | IActionUpdateUserFailed;

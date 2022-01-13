@@ -12,6 +12,8 @@ interface IAccountState {
     user: IUser | null;
     forgotPasswordRequest: boolean;
     forgotPasswordFailed: boolean;
+    getUserRequest: boolean;
+    getUserFailed: boolean;
     loginRequest: boolean;
     loginFailed: boolean;
     logoutRequest: boolean;
@@ -21,6 +23,8 @@ interface IAccountState {
     resetPasswordRequest: boolean;
     resetPasswordFailed: boolean;
     error: AxiosError | null;
+    updateUserRequest: boolean;
+    updateUserFailed: boolean;
 }
 
 const initialState: IAccountState = {
@@ -32,6 +36,8 @@ const initialState: IAccountState = {
     user: null,
     forgotPasswordRequest: false,
     forgotPasswordFailed: false,
+    getUserRequest: false,
+    getUserFailed: false,
     loginRequest: false,
     loginFailed: false,
     logoutRequest: false,
@@ -41,6 +47,8 @@ const initialState: IAccountState = {
     resetPasswordRequest: false,
     resetPasswordFailed: false,
     error: null,
+    updateUserRequest: false,
+    updateUserFailed: false,
 };
 
 export const reducer: Reducer<IAccountState, AccountActionsType> = (
@@ -163,6 +171,48 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 logoutRequest: false,
                 logoutFailed: true,
+                error: action.payload,
+            };
+        case ActionTypes.GET_USER_REQUEST: {
+            return {
+                ...state,
+                getUserRequest: true,
+                getUserFailed: false,
+                error: null,
+            };
+        }
+        case ActionTypes.GET_USER_SUCCESS:
+            return {
+                ...state,
+                getUserRequest: false,
+                user: action.payload,
+            };
+        case ActionTypes.GET_USER_FAILED:
+            return {
+                ...state,
+                getUserRequest: false,
+                getUserFailed: true,
+                error: action.payload,
+            };
+        case ActionTypes.UPDATE_USER_REQUEST: {
+            return {
+                ...state,
+                updateUserRequest: true,
+                updateUserFailed: false,
+                error: null,
+            };
+        }
+        case ActionTypes.UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                updateUserRequest: false,
+                user: action.payload,
+            };
+        case ActionTypes.UPDATE_USER_FAILED:
+            return {
+                ...state,
+                updateUserRequest: false,
+                updateUserFailed: true,
                 error: action.payload,
             };
         default:
