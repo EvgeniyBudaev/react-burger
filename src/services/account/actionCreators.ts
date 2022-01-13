@@ -49,6 +49,7 @@ export const login =
             });
             setCookie("accessToken", data.accessToken, {});
             setCookie("refreshToken", data.refreshToken, {});
+            setCookie("user", data.user, {});
         } catch (error) {
             dispatch({
                 type: ActionTypes.LOGIN_USER_FAILED,
@@ -82,6 +83,7 @@ export const register =
             });
             setCookie("accessToken", data.accessToken, {});
             setCookie("refreshToken", data.refreshToken, {});
+            setCookie("user", data.user, {});
         } catch (error) {
             dispatch({
                 type: ActionTypes.REGISTER_USER_FAILED,
@@ -154,6 +156,7 @@ export const logout = (): ((dispatch) => Promise<void>) => async dispatch => {
         });
         setCookie("accessToken", "", {});
         setCookie("refreshToken", "", {});
+        setCookie("user", "", {});
     } catch (error) {
         dispatch({
             type: ActionTypes.LOGOUT_USER_FAILED,

@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { Reducer } from "redux";
 import { AccountActionsType, ActionTypes } from "services/account";
 import { IUser } from "./types";
+import { getCookie } from "utils/coockie";
 
 interface IAccountState {
     accessToken: string | null;
@@ -28,8 +29,8 @@ interface IAccountState {
 }
 
 const initialState: IAccountState = {
-    accessToken: null,
-    refreshToken: null,
+    accessToken: getCookie("accessToken") || null,
+    refreshToken: getCookie("refreshToken") || null,
     emailSent: false,
     passwordReseted: false,
     success: false,

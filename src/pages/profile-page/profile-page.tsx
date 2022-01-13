@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import cn from "classnames";
@@ -12,9 +13,11 @@ import { getErrorStatus } from "utils/error";
 import classes from "./profile-page.module.css";
 
 export const ProfilePage: React.FC = () => {
-    const { error, logoutRequest: isLogoutLoading } = useTypedSelector(
-        state => state.account
-    );
+    const {
+        accessToken,
+        error,
+        logoutRequest: isLogoutLoading,
+    } = useTypedSelector(state => state.account);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -41,6 +44,10 @@ export const ProfilePage: React.FC = () => {
     };
 
     if (isLogoutLoading) return <Spinner />;
+
+    if (!accessToken) {
+        return <Redirect to={ROUTES.HOME} />;
+    }
 
     return (
         <Layout>
