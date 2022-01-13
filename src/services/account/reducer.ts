@@ -7,6 +7,7 @@ interface IAccountState {
     accessToken: string | null;
     refreshToken: string | null;
     emailSent: boolean;
+    passwordReseted: boolean;
     success: boolean;
     user: IUser | null;
     forgotPasswordRequest: boolean;
@@ -15,6 +16,8 @@ interface IAccountState {
     loginFailed: boolean;
     registerRequest: boolean;
     registerFailed: boolean;
+    resetPasswordRequest: boolean;
+    resetPasswordFailed: boolean;
     error: AxiosError | null;
 }
 
@@ -22,6 +25,7 @@ const initialState: IAccountState = {
     accessToken: null,
     refreshToken: null,
     emailSent: false,
+    passwordReseted: false,
     success: false,
     user: null,
     forgotPasswordRequest: false,
@@ -30,6 +34,8 @@ const initialState: IAccountState = {
     loginFailed: false,
     registerRequest: false,
     registerFailed: false,
+    resetPasswordRequest: false,
+    resetPasswordFailed: false,
     error: null,
 };
 
@@ -95,7 +101,6 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 forgotPasswordRequest: true,
                 forgotPasswordFailed: false,
                 error: null,
-                success: false,
             };
         }
         case ActionTypes.FORGOT_PASSWORD_SUCCESS:
@@ -109,6 +114,28 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 forgotPasswordRequest: false,
                 forgotPasswordFailed: true,
+                error: action.payload,
+            };
+        case ActionTypes.RESET_PASSWORD_REQUEST: {
+            return {
+                ...state,
+                passwordReseted: false,
+                resetPasswordRequest: true,
+                resetPasswordFailed: false,
+                error: null,
+            };
+        }
+        case ActionTypes.RESET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                passwordReseted: true,
+                resetPasswordRequest: false,
+            };
+        case ActionTypes.RESET_PASSWORD_FAILED:
+            return {
+                ...state,
+                resetPasswordRequest: false,
+                resetPasswordFailed: true,
                 error: action.payload,
             };
         default:

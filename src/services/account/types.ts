@@ -40,6 +40,16 @@ export interface IForgotPasswordResponse {
     success: boolean;
 }
 
+export interface IResetPasswordRequest {
+    password: string;
+    token: string;
+}
+
+export interface IResetPasswordResponse {
+    message: string;
+    success: boolean;
+}
+
 export interface IActionLoginRequest {
     type: ActionTypes.LOGIN_USER_REQUEST;
 }
@@ -81,6 +91,19 @@ export interface IActionForgotPasswordFailed {
     payload: AxiosError;
 }
 
+export interface IActionResetPasswordRequest {
+    type: ActionTypes.RESET_PASSWORD_REQUEST;
+}
+
+export interface IActionResetPasswordSuccess {
+    type: ActionTypes.RESET_PASSWORD_SUCCESS;
+}
+
+export interface IActionResetPasswordFailed {
+    type: ActionTypes.RESET_PASSWORD_FAILED;
+    payload: AxiosError;
+}
+
 export type AccountActionsType =
     | IActionLoginRequest
     | IActionLoginSuccess
@@ -90,4 +113,7 @@ export type AccountActionsType =
     | IActionRegisterFailed
     | IActionForgotPasswordRequest
     | IActionForgotPasswordSuccess
-    | IActionForgotPasswordFailed;
+    | IActionForgotPasswordFailed
+    | IActionResetPasswordRequest
+    | IActionResetPasswordSuccess
+    | IActionResetPasswordFailed;

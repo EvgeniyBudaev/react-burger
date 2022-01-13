@@ -1,6 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { ForgotPasswordPage, HomePage, LoginPage, RegisterPage } from "pages";
+import {
+    ForgotPasswordPage,
+    HomePage,
+    LoginPage,
+    RegisterPage,
+    ResetPasswordPage,
+} from "pages";
 import { ROUTES } from "routes";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/index.css";
@@ -14,6 +20,11 @@ export const App: React.FC = () => {
             <Route
                 path={ROUTES.FORGOT_PASSWORD}
                 component={ForgotPasswordPage}
+                exact
+            />
+            <Route
+                path={ROUTES.RESET_PASSWORD}
+                component={ResetPasswordPage}
                 exact
             />
         </Switch>

@@ -8,15 +8,18 @@ import {
     ILoginResponse,
     IRegisterRequest,
     IRegisterResponse,
+    IResetPasswordRequest,
+    IResetPasswordResponse,
 } from "services/account";
 import { setCookie, getCookie } from "utils/coockie";
 
 const LOGIN_URL = `${BASE_URL}auth/login`;
 const REGISTER_URL = `${BASE_URL}auth/register`;
 const FORGOT_PASSWORD_URL = `${BASE_URL}password-reset`;
+const RESET_PASSWORD_URL = `${BASE_URL}password-reset/reset`;
 const config = {
     headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json;charset=utf-8",
     },
 };
 
@@ -100,6 +103,34 @@ export const forgotPassword =
         } catch (error) {
             dispatch({
                 type: ActionTypes.FORGOT_PASSWORD_FAILED,
+                payload: error,
+            });
+        }
+    };
+
+export const resetPassword =
+    ({
+        password,
+        token,
+    }: IResetPasswordRequest): ((dispatch) => Promise<void>) =>
+    async dispatch => {
+        const body = JSON.stringify({
+            password,
+            token,
+        });
+        try {
+            dispatch({ type: ActionTypes.RESET_PASSWORD_REQUEST });
+            await axios.post<IResetPasswordResponse>(
+                RESET_PASSWORD_URL,
+                body,
+                config
+            );
+            dispatch({
+                type: ActionTypes.RESET_PASSWORD_SUCCESS,
+            });
+        } catch (error) {
+            dispatch({
+                type: ActionTypes.RESET_PASSWORD_FAILED,
                 payload: error,
             });
         }
