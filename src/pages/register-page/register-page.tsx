@@ -24,9 +24,11 @@ export const RegisterPage: React.FC = () => {
         name: "",
         password: "",
     });
-    const { accessToken, error, registerRequest } = useTypedSelector(
-        state => state.account
-    );
+    const {
+        accessToken,
+        error,
+        registerRequest: isLoading,
+    } = useTypedSelector(state => state.account);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -57,7 +59,7 @@ export const RegisterPage: React.FC = () => {
         dispatch(register(formState));
     };
 
-    if (registerRequest) return <Spinner />;
+    if (isLoading) return <Spinner />;
 
     if (accessToken) {
         return <Redirect to={ROUTES.HOME} />;

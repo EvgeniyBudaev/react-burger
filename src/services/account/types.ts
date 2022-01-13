@@ -31,6 +31,15 @@ export interface IRegisterResponse {
     user: IUser;
 }
 
+export interface IForgotPasswordRequest {
+    email: string;
+}
+
+export interface IForgotPasswordResponse {
+    message: string;
+    success: boolean;
+}
+
 export interface IActionLoginRequest {
     type: ActionTypes.LOGIN_USER_REQUEST;
 }
@@ -59,10 +68,26 @@ export interface IActionRegisterFailed {
     payload: AxiosError;
 }
 
+export interface IActionForgotPasswordRequest {
+    type: ActionTypes.FORGOT_PASSWORD_REQUEST;
+}
+
+export interface IActionForgotPasswordSuccess {
+    type: ActionTypes.FORGOT_PASSWORD_SUCCESS;
+}
+
+export interface IActionForgotPasswordFailed {
+    type: ActionTypes.FORGOT_PASSWORD_FAILED;
+    payload: AxiosError;
+}
+
 export type AccountActionsType =
     | IActionLoginRequest
     | IActionLoginSuccess
     | IActionLoginFailed
     | IActionRegisterRequest
     | IActionRegisterSuccess
-    | IActionRegisterFailed;
+    | IActionRegisterFailed
+    | IActionForgotPasswordRequest
+    | IActionForgotPasswordSuccess
+    | IActionForgotPasswordFailed;

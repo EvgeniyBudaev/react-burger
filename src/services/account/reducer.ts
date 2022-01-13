@@ -6,8 +6,11 @@ import { IUser } from "./types";
 interface IAccountState {
     accessToken: string | null;
     refreshToken: string | null;
+    emailSent: boolean;
     success: boolean;
     user: IUser | null;
+    forgotPasswordRequest: boolean;
+    forgotPasswordFailed: boolean;
     loginRequest: boolean;
     loginFailed: boolean;
     registerRequest: boolean;
@@ -18,8 +21,11 @@ interface IAccountState {
 const initialState: IAccountState = {
     accessToken: null,
     refreshToken: null,
+    emailSent: false,
     success: false,
     user: null,
+    forgotPasswordRequest: false,
+    forgotPasswordFailed: false,
     loginRequest: false,
     loginFailed: false,
     registerRequest: false,
@@ -37,7 +43,8 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 loginRequest: true,
                 loginFailed: false,
-                loginError: null,
+                error: null,
+                success: false,
             };
         }
         case ActionTypes.LOGIN_USER_SUCCESS:
@@ -61,7 +68,8 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 registerRequest: true,
                 registerFailed: false,
-                registerError: null,
+                error: null,
+                success: false,
             };
         }
         case ActionTypes.REGISTER_USER_SUCCESS:
@@ -78,6 +86,29 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 ...state,
                 registerRequest: false,
                 registerFailed: true,
+                error: action.payload,
+            };
+        case ActionTypes.FORGOT_PASSWORD_REQUEST: {
+            return {
+                ...state,
+                emailSent: false,
+                forgotPasswordRequest: true,
+                forgotPasswordFailed: false,
+                error: null,
+                success: false,
+            };
+        }
+        case ActionTypes.FORGOT_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                emailSent: true,
+                forgotPasswordRequest: false,
+            };
+        case ActionTypes.FORGOT_PASSWORD_FAILED:
+            return {
+                ...state,
+                forgotPasswordRequest: false,
+                forgotPasswordFailed: true,
                 error: action.payload,
             };
         default:

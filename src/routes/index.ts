@@ -5,6 +5,8 @@ export const ROUTES = {
     LOGOUT: "/logout",
     ORDER_LIST: "/order-list",
     PERSONAL_AREA: "/personal-area",
+    PROFILE: "/profile",
     REGISTER: "/register",
+    RESET_PASSWORD: "/reset-password",
     TOKEN: "/token",
 };
