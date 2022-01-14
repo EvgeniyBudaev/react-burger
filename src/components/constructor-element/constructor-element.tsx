@@ -1,15 +1,16 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
     ConstructorElement as YaConstructorElement,
     DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { IngredientDetails } from "components";
+import { ROUTES } from "routes";
 import { deleteIngredient, moveIngredients } from "services/burger-constructor";
-import { Modal } from "ui-kit";
+import { showIngredientDetails } from "services/ingredient-details";
 import classes from "./constructor-element.module.css";
 
 type ConstructorElementType = "top" | "bottom";
@@ -47,8 +48,8 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
     type,
     typeIngredient,
 }) => {
-    const [isOpenModal, setIsOpenModal] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
     const ref = useRef(null);
 
     const [, dragRef] = useDrag({
@@ -82,12 +83,11 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
 
     dragRef(dropRef(ref));
 
-    const handleModalOpen = () => {
-        setIsOpenModal(true);
-    };
-
-    const handleModalClose = () => {
-        setIsOpenModal(false);
+    const handleIngredientDetailsOpen = () => {
+        if (_id) {
+            history.push(`${ROUTES.INGREDIENTS}/${_id}`);
+            dispatch(showIngredientDetails(_id));
+        }
     };
 
     const handleRemoveIngredient = () => {
@@ -99,7 +99,7 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
             <li
                 className={cn("mb-4", classes.ConstructorElement)}
                 ref={ref}
-                onClick={handleModalOpen}
+                onClick={handleIngredientDetailsOpen}
             >
                 {typeIngredient !== INGREDIENT_TYPE.BUN ? (
                     <DragIcon type="primary" />
@@ -115,20 +115,6 @@ export const ConstructorElement: React.FC<IConstructorElementProps> = ({
                     handleClose={handleRemoveIngredient}
                 />
             </li>
-            <Modal
-                title="Детали ингредиента"
-                isOpen={isOpenModal}
-                onCloseModal={handleModalClose}
-            >
-                <IngredientDetails
-                    calories={calories}
-                    carbohydrates={carbohydrates}
-                    image={image_large}
-                    fat={fat}
-                    name={name}
-                    proteins={proteins}
-                />
-            </Modal>
         </>
     );
 };

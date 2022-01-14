@@ -1,6 +1,7 @@
 export const ROUTES = {
     FORGOT_PASSWORD: "/forgot-password",
     HOME: "/",
+    INGREDIENTS: "/ingredients",
     LOGIN: "/login",
     LOGOUT: "/logout",
     ORDER_LIST: "/order-list",

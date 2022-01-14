@@ -1,6 +1,11 @@
+.ingredientDetails {
+    margin-top: 120px;
+}
+
 .Image,
 .Image img {
     max-width: 480px;
+    text-align: center;
 }
 
 .Container {

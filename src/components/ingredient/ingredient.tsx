@@ -2,12 +2,14 @@ import { INGREDIENT_TYPE } from "constants/ingredient";
 import React, { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
     Counter,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { useTypedSelector } from "hooks/useTypedSelector";
+import { ROUTES } from "routes";
 import { showIngredientDetails } from "services/ingredient-details";
 import { IIngredient } from "types/ingredient";
 import classes from "./ingredient.module.css";
@@ -21,6 +23,7 @@ export const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
     const [orderCount, setOrderCount] = useState(0);
     const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         const amountMains = mains.filter(
@@ -33,6 +36,7 @@ export const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
     }, [mains, bun, _id, type]);
 
     const handleIngredientDetailsOpen = () => {
+        history.push(`${ROUTES.INGREDIENTS}/${_id}`);
         dispatch(showIngredientDetails(_id));
     };
 

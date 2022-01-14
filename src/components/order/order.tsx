@@ -6,7 +6,6 @@ import {
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import isEmpty from "lodash/isEmpty";
 import { BurgerConstructor, OrderDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { fetchMakeOrder } from "services/order-details";
@@ -28,7 +27,9 @@ export const Order: React.FC = () => {
             return mains.reduce((acc, current) => acc + current.price, 0);
         }
     }, [mains]);
-    const bunsTotalPrice = bun.price * 2;
+    const bunsTotalPrice = bun && bun.price ? bun.price * 2 : 0;
+    const mainsTotal = mainsTotalPrice ? mainsTotalPrice : 0;
+    const totalPrice = bunsTotalPrice + mainsTotal;
 
     const orderIds = useMemo(() => {
         return ingredients && ingredients.map(ingredient => ingredient._id);
@@ -81,8 +82,7 @@ export const Order: React.FC = () => {
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">
-                            {mainsTotalPrice &&
-                                mainsTotalPrice + bunsTotalPrice}
+                            {totalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>
