@@ -1,9 +1,12 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import { ROUTES } from "routes";
 
-export const ProtectedRoute = ({ children, ...rest }) => {
+export const ProtectedRoute: React.FC<RouteProps> = ({
+    children,
+    ...rest
+}): JSX.Element => {
     const { accessToken } = useTypedSelector(state => state.account);
 
     return (

@@ -5,7 +5,10 @@ import {
     ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export const getIconByType = (type: string, isActive: boolean) => {
+export const getIconByType = (
+    type: string,
+    isActive: boolean
+): JSX.Element | undefined => {
     if (type === "burger") {
         return <BurgerIcon type={isActive ? "primary" : "secondary"} />;
     }

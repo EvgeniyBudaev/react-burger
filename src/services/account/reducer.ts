@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import { Reducer } from "redux";
 import { AccountActionsType, ActionTypes } from "services/account";
-import { IUser } from "./types";
 import { getCookie } from "utils/coockie";
+import { IUser } from "./types";
 
 interface IAccountState {
     accessToken: string | null;

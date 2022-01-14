@@ -49,7 +49,6 @@ export const login =
             });
             setCookie("accessToken", data.accessToken, {});
             setCookie("refreshToken", data.refreshToken, {});
-            setCookie("user", data.user, {});
         } catch (error) {
             dispatch({
                 type: ActionTypes.LOGIN_USER_FAILED,
@@ -83,7 +82,6 @@ export const register =
             });
             setCookie("accessToken", data.accessToken, {});
             setCookie("refreshToken", data.refreshToken, {});
-            setCookie("user", data.user, {});
         } catch (error) {
             dispatch({
                 type: ActionTypes.REGISTER_USER_FAILED,
@@ -217,7 +215,7 @@ export const updateUser =
             };
             try {
                 dispatch({ type: ActionTypes.UPDATE_USER_REQUEST });
-                const { data } = await axios.post<IUpdateUserResponse>(
+                const { data } = await axios.patch<IUpdateUserResponse>(
                     USER_URL,
                     body,
                     configUpdateUser

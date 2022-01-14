@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
     Button,
     CurrencyIcon,
@@ -8,6 +9,7 @@ import {
 import cn from "classnames";
 import { BurgerConstructor, OrderDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
+import { ROUTES } from "routes";
 import { fetchMakeOrder } from "services/order-details";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
@@ -16,12 +18,14 @@ import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const { accessToken } = useTypedSelector(state => state.account);
     const { ingredients } = useTypedSelector(state => state.burgerIngredients);
     const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
     const { details, detailsRequest, detailsError } = useTypedSelector(
         state => state.orderDetails
     );
     const dispatch = useDispatch();
+    const history = useHistory();
     const mainsTotalPrice = useMemo(() => {
         if (mains) {
             return mains.reduce((acc, current) => acc + current.price, 0);
@@ -36,12 +40,16 @@ export const Order: React.FC = () => {
     }, [ingredients]);
 
     const handleMakeOrderClick = () => {
-        const options = {
-            ingredients: orderIds,
-        };
-        if (!detailsRequest) {
-            dispatch(fetchMakeOrder(options));
-            setIsOpenModal(true);
+        if (accessToken) {
+            const options = {
+                ingredients: orderIds,
+            };
+            if (!detailsRequest) {
+                dispatch(fetchMakeOrder(options));
+                setIsOpenModal(true);
+            }
+        } else {
+            history.push(ROUTES.LOGIN);
         }
     };
 

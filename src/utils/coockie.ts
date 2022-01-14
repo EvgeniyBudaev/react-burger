@@ -1,4 +1,4 @@
-export const getCookie = (name: string) => {
+export const getCookie = (name: string): string | undefined => {
     const matches = document.cookie.match(
         new RegExp(
             "(?:^|; )" +
@@ -10,10 +10,15 @@ export const getCookie = (name: string) => {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export const setCookie = (name, value, props) => {
+export const setCookie = (
+    name: string,
+    value: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    props: { expires: any } | Record<string, never>
+): void => {
     props = props || {};
     let exp = props.expires;
-    if (typeof exp == "number" && exp) {
+    if (typeof exp === "number" && exp) {
         const d = new Date();
         d.setTime(d.getTime() + exp * 1000);
         exp = props.expires = d;
@@ -33,6 +38,6 @@ export const setCookie = (name, value, props) => {
     document.cookie = updatedCookie;
 };
 
-export const deleteCookie = (name: string) => {
-    setCookie(name, null, { expires: -1 });
-};
+export function deleteCookie(name: string): void {
+    setCookie(name, "", { expires: -1 });
+}
