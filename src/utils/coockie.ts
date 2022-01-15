@@ -1,3 +1,5 @@
+type cookieExpiresType = Date | number | string;
+
 export const getCookie = (name: string): string | undefined => {
     const matches = document.cookie.match(
         new RegExp(
@@ -14,7 +16,7 @@ export const setCookie = (
     name: string,
     value: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    props: { expires: any } | Record<string, never>
+    props: { expires: cookieExpiresType } | Record<string, never>
 ): void => {
     props = props || {};
     let exp = props.expires;
@@ -23,7 +25,7 @@ export const setCookie = (
         d.setTime(d.getTime() + exp * 1000);
         exp = props.expires = d;
     }
-    if (exp && exp.toUTCString) {
+    if (exp && exp instanceof Date) {
         props.expires = exp.toUTCString();
     }
     value = encodeURIComponent(value);
