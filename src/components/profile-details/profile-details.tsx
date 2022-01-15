@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     Button,
@@ -10,9 +9,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { useTypedSelector } from "hooks/useTypedSelector";
-import { ROUTES } from "routes";
 import { getUser, updateUser } from "services/account";
-import { Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
 import { getErrorStatus } from "utils/error";
 import classes from "./profile-details.module.css";
@@ -23,12 +20,7 @@ export const ProfileDetails: React.FC = () => {
         name: "",
         password: "",
     };
-    const {
-        error,
-        user,
-        getUserRequest: isGetUserLoading,
-        updateUserRequest: isUpdateUserLoading,
-    } = useTypedSelector(state => state.account);
+    const { error, user } = useTypedSelector(state => state.account);
     const [formState, setFormState] = useState(initialFormState);
     const dispatch = useDispatch();
 
@@ -87,12 +79,6 @@ export const ProfileDetails: React.FC = () => {
             setFormState(initialFormState);
         }
     };
-
-    if (isGetUserLoading || isUpdateUserLoading) return <Spinner />;
-
-    if (!user) {
-        return <Redirect to={ROUTES.LOGIN} />;
-    }
 
     return (
         <>

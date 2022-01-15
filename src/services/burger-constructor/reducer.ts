@@ -1,6 +1,5 @@
 import { INGREDIENT_TYPE } from "constants/ingredient";
 import { Reducer } from "redux";
-import update from "immutability-helper";
 import { IIngredient } from "types/ingredient";
 import { ActionTypes } from "./actionTypes";
 import { BurgerConstructorActionsType } from "./types";
@@ -29,27 +28,28 @@ export const reducer: Reducer<
             } else
                 return {
                     ...state,
-                    mains: [...state.mains, action.payload],
+                    mains: [
+                        ...state.mains,
+                        { ...action.payload, id: action.uuid },
+                    ],
                 };
         }
         case ActionTypes.DELETE_INGREDIENT: {
             return {
                 ...state,
-                mains: update(state.mains, {
-                    $splice: [[action.payload, 1]],
-                }),
+                mains: state.mains.filter(item => item.id !== action.payload),
             };
         }
         case ActionTypes.MOVE_INGREDIENTS: {
-            const draggingIngredient = state.mains[action.dragIndex];
             return {
                 ...state,
-                mains: update(state.mains, {
-                    $splice: [
-                        [action.dragIndex, 1],
-                        [action.hoverIndex, 0, draggingIngredient],
-                    ],
-                }),
+                mains: action.payload,
+            };
+        }
+        case ActionTypes.CLEAR_ALL_INGREDIENTS: {
+            return {
+                bun: {},
+                mains: [],
             };
         }
         default:

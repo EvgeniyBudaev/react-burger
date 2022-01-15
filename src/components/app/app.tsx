@@ -1,7 +1,10 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
-import { IngredientDetails, Layout, ProtectedRoute } from "components";
+import { useDispatch } from "react-redux";
+import { ToastContainer as ErrorPopup } from "react-toastify";
+import { AppHeader, IngredientDetails, ProtectedRoute } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import {
     ForgotPasswordPage,
@@ -12,62 +15,92 @@ import {
     ResetPasswordPage,
 } from "pages";
 import { ROUTES } from "routes";
-import { hideIngredientDetails } from "services/ingredient-details";
-import { Modal } from "ui-kit";
+import { fetchBurgerIngredients } from "services/burger-ingredients";
+import { Spinner } from "ui-kit";
+import { getErrorStatus } from "utils/error";
+import { AlertError } from "utils/alert";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/index.css";
 
 export const App: React.FC = () => {
-    const { iSIngredientDetailsActive } = useTypedSelector(
-        state => state.ingredientDetails
-    );
     const dispatch = useDispatch();
+    const { ingredientsRequest, ingredientsError } = useTypedSelector(
+        state => state.burgerIngredients
+    );
 
-    const handleIngredientDetailsClose = () => {
-        dispatch(hideIngredientDetails());
-    };
+    useEffect(() => {
+        if (!ingredientsRequest) {
+            dispatch(fetchBurgerIngredients());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (ingredientsError) {
+            if (ingredientsError.response) {
+                const errorStatus = getErrorStatus(ingredientsError);
+
+                if (errorStatus === 404) {
+                    AlertError(
+                        "Запрашиваемой страницы не существует! (from BurgerIngredients)",
+                        ingredientsError.message
+                    );
+                }
+            } else if (ingredientsError.request) {
+                AlertError(
+                    "Не правильные параметры запроса!",
+                    ingredientsError.message
+                );
+            } else {
+                AlertError(
+                    "Не удалось получить список ингредиентов для конструктора!",
+                    ingredientsError.message
+                );
+            }
+        }
+    }, [ingredientsError]);
 
     return (
-        <Switch>
-            <Route path={ROUTES.HOME} component={HomePage} exact />
-            <Route path={ROUTES.LOGIN} component={LoginPage} exact />
-            <Route path={ROUTES.REGISTER} component={RegisterPage} exact />
-            <Route
-                path={ROUTES.FORGOT_PASSWORD}
-                component={ForgotPasswordPage}
-                exact
-            />
-            <Route
-                path={ROUTES.RESET_PASSWORD}
-                component={ResetPasswordPage}
-                exact
-            />
-            <ProtectedRoute path={ROUTES.PROFILE}>
-                <Route exact>
-                    <ProfilePage />
-                </Route>
-            </ProtectedRoute>
-            {iSIngredientDetailsActive ? (
-                <Route path={`${ROUTES.INGREDIENTS}/:id`} exact>
-                    <Modal
-                        title="Детали ингредиента"
-                        isOpen={iSIngredientDetailsActive}
-                        onCloseModal={handleIngredientDetailsClose}
-                    >
-                        <IngredientDetails
-                            isModalOpen={iSIngredientDetailsActive}
-                        />
-                    </Modal>
-                </Route>
+        <>
+            <ErrorPopup />
+            {ingredientsRequest ? (
+                <Spinner />
             ) : (
-                <Route path={`${ROUTES.INGREDIENTS}/:id`} exact>
-                    <Layout>
-                        <IngredientDetails
-                            isModalOpen={iSIngredientDetailsActive}
+                <DndProvider backend={HTML5Backend}>
+                    <AppHeader />
+                    <Switch>
+                        <Route path={ROUTES.HOME} component={HomePage} exact />
+                        <Route
+                            path={ROUTES.LOGIN}
+                            component={LoginPage}
+                            exact
                         />
-                    </Layout>
-                </Route>
+                        <Route
+                            path={ROUTES.REGISTER}
+                            component={RegisterPage}
+                            exact
+                        />
+                        <Route
+                            path={ROUTES.FORGOT_PASSWORD}
+                            component={ForgotPasswordPage}
+                            exact
+                        />
+                        <Route
+                            path={ROUTES.RESET_PASSWORD}
+                            component={ResetPasswordPage}
+                            exact
+                        />
+                        <ProtectedRoute path={ROUTES.PROFILE}>
+                            <Route exact>
+                                <ProfilePage />
+                            </Route>
+                        </ProtectedRoute>
+                        <Route path={`${ROUTES.INGREDIENTS}/:id`} exact>
+                            <IngredientDetails />
+                        </Route>
+                    </Switch>
+                </DndProvider>
             )}
-        </Switch>
+        </>
     );
 };

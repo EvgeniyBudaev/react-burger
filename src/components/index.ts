@@ -2,7 +2,6 @@ import App from "./app";
 import AppHeader from "./app-header";
 import BurgerConstructor from "./burger-constructor";
 import BurgerIngredients from "./burger-ingredients";
-import ConstructorElement from "./constructor-element";
 import CustomLink from "./custom-link";
 import ErrorBoundary from "./error-boundary";
 import Ingredient from "./ingredient";
@@ -19,7 +18,6 @@ export {
     AppHeader,
     BurgerConstructor,
     BurgerIngredients,
-    ConstructorElement,
     CustomLink,
     ErrorBoundary,
     Ingredient,

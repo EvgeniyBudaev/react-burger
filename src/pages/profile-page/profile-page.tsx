@@ -46,7 +46,7 @@ export const ProfilePage: React.FC = () => {
     if (isLogoutLoading) return <Spinner />;
 
     if (!accessToken) {
-        return <Redirect to={ROUTES.HOME} />;
+        return <Redirect to={ROUTES.LOGIN} />;
     }
 
     return (

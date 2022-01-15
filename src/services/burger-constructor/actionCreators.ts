@@ -1,7 +1,9 @@
 import { IIngredient } from "types/ingredient";
+import { newGuid } from "utils/guid";
 import { ActionTypes } from "./actionTypes";
 import {
     IActionAddIngredientBurgerConstructor,
+    IActionClearAllIngredientBurgerConstructor,
     IActionDeleteIngredientBurgerConstructor,
     IActionMoveIngredientBurgerConstructor,
 } from "./types";
@@ -12,25 +14,31 @@ export const addIngredient = (
     return {
         type: ActionTypes.ADD_INGREDIENT,
         payload: ingredient,
+        uuid: newGuid(),
     };
 };
 
 export const deleteIngredient = (
-    index: number
+    id: string
 ): IActionDeleteIngredientBurgerConstructor => {
     return {
         type: ActionTypes.DELETE_INGREDIENT,
-        payload: index,
+        payload: id,
     };
 };
 
 export const moveIngredients = (
-    dragIndex: number,
-    hoverIndex: number
+    state: IIngredient[]
 ): IActionMoveIngredientBurgerConstructor => {
     return {
         type: ActionTypes.MOVE_INGREDIENTS,
-        dragIndex: dragIndex,
-        hoverIndex: hoverIndex,
+        payload: state,
     };
 };
+
+export const clearAllIngredients =
+    (): IActionClearAllIngredientBurgerConstructor => {
+        return {
+            type: ActionTypes.CLEAR_ALL_INGREDIENTS,
+        };
+    };

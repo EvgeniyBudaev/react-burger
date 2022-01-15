@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ROUTES } from "routes";
 import cn from "classnames";
@@ -26,7 +27,9 @@ export const AppHeader: React.FC = () => {
                     />
                 </nav>
                 <Spacer />
-                <Logo />
+                <Link to={ROUTES.HOME}>
+                    <Logo />
+                </Link>
                 <Spacer />
                 {accessToken ? (
                     <CustomLink

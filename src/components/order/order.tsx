@@ -9,7 +9,9 @@ import {
 import cn from "classnames";
 import { BurgerConstructor, OrderDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
+import isEmpty from "lodash/isEmpty";
 import { ROUTES } from "routes";
+import { clearAllIngredients } from "services/burger-constructor";
 import { fetchMakeOrder } from "services/order-details";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
@@ -78,6 +80,12 @@ export const Order: React.FC = () => {
         }
     }, [detailsError]);
 
+    useEffect(() => {
+        if (details) {
+            dispatch(clearAllIngredients());
+        }
+    }, [dispatch, details]);
+
     const handleModalClose = () => {
         setIsOpenModal(false);
     };
@@ -97,6 +105,7 @@ export const Order: React.FC = () => {
                     <Button
                         type="primary"
                         size="large"
+                        disabled={isEmpty(bun)}
                         onClick={handleMakeOrderClick}
                     >
                         Оформить заказ

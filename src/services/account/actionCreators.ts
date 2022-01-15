@@ -154,7 +154,6 @@ export const logout = (): ((dispatch) => Promise<void>) => async dispatch => {
         });
         setCookie("accessToken", "", {});
         setCookie("refreshToken", "", {});
-        setCookie("user", "", {});
     } catch (error) {
         dispatch({
             type: ActionTypes.LOGOUT_USER_FAILED,
