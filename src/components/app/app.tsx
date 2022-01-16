@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
-import { AppHeader, IngredientDetails, ProtectedRoute } from "components";
+import {
+    AppHeader,
+    IngredientDetails,
+    ModalIngredientDetails,
+    ProtectedRoute,
+} from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
 import {
     ForgotPasswordPage,
@@ -24,6 +29,8 @@ import "../../styles/index.css";
 
 export const App: React.FC = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const isModalOpen = location.state && location.state.modal;
     const { ingredientsRequest, ingredientsError } = useTypedSelector(
         state => state.burgerIngredients
     );
@@ -68,7 +75,7 @@ export const App: React.FC = () => {
             ) : (
                 <DndProvider backend={HTML5Backend}>
                     <AppHeader />
-                    <Switch>
+                    <Switch location={isModalOpen ?? location}>
                         <Route path={ROUTES.HOME} component={HomePage} exact />
                         <Route
                             path={ROUTES.LOGIN}
@@ -95,10 +102,19 @@ export const App: React.FC = () => {
                                 <ProfilePage />
                             </Route>
                         </ProtectedRoute>
-                        <Route path={`${ROUTES.INGREDIENTS}/:id`} exact>
-                            <IngredientDetails />
-                        </Route>
+                        <Route
+                            path={`${ROUTES.INGREDIENTS}/:id`}
+                            component={IngredientDetails}
+                            exact
+                        />
                     </Switch>
+                    {isModalOpen && (
+                        <Route
+                            path={`${ROUTES.INGREDIENTS}/:id`}
+                            children={<ModalIngredientDetails />}
+                            exact
+                        />
+                    )}
                 </DndProvider>
             )}
         </>

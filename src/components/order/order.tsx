@@ -105,7 +105,7 @@ export const Order: React.FC = () => {
                     </Button>
                 </div>
             </section>
-            <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
+            <Modal isOpen={isOpenModal} onClose={handleModalClose}>
                 {detailsRequest ? (
                     <Spinner />
                 ) : (
