@@ -1,17 +1,17 @@
 .Form {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .FormItem {
-	margin: 0 auto 24px;
-	width: max-content;
+    margin: 0 auto 24px;
+    width: max-content;
 }
 
 .Controls {
-	display: flex;
-	justify-content: center;
-	width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }

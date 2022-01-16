@@ -15,6 +15,7 @@ import {
     ForgotPasswordPage,
     HomePage,
     LoginPage,
+    NotFound404,
     ProfilePage,
     RegisterPage,
     ResetPasswordPage,
@@ -107,6 +108,7 @@ export const App: React.FC = () => {
                             component={IngredientDetails}
                             exact
                         />
+                        <Route component={NotFound404} />
                     </Switch>
                     {isModalOpen && (
                         <Route
