@@ -3,7 +3,6 @@ import { newGuid } from "utils/guid";
 import { ActionTypes } from "./actionTypes";
 import {
     IActionAddIngredientBurgerConstructor,
-    IActionClearAllIngredientBurgerConstructor,
     IActionDeleteIngredientBurgerConstructor,
     IActionMoveIngredientBurgerConstructor,
 } from "./types";
@@ -35,10 +34,3 @@ export const moveIngredients = (
         payload: state,
     };
 };
-
-export const clearAllIngredients =
-    (): IActionClearAllIngredientBurgerConstructor => {
-        return {
-            type: ActionTypes.CLEAR_ALL_INGREDIENTS,
-        };
-    };
