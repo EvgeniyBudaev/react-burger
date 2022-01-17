@@ -14,7 +14,7 @@ export interface IModalProps {
     size?: IModalSize;
     title?: string;
     isOpen: boolean;
-    onCloseModal: () => void;
+    onClose: () => void;
 }
 
 const modalRoot = document.getElementById("react-modals");
@@ -25,7 +25,7 @@ export const Modal = ({
     size = "medium",
     title,
     isOpen,
-    onCloseModal,
+    onClose,
 }: IModalProps): JSX.Element => {
     const defaultClassNames = {
         modal: cn(classes.ModalDefault, className, {
@@ -63,7 +63,7 @@ export const Modal = ({
             closeIcon={<Icon type="Close" />}
             styles={styles}
             open={isOpen}
-            onClose={onCloseModal}
+            onClose={onClose}
         >
             <p className="text text_type_main-large">{title}</p>
             <div className="Modal">{children}</div>

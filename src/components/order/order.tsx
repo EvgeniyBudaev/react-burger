@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
     Button,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import isEmpty from "lodash/isEmpty";
 import { BurgerConstructor, OrderDetails } from "components";
 import { useTypedSelector } from "hooks/useTypedSelector";
+import isEmpty from "lodash/isEmpty";
+import { ROUTES } from "routes";
 import { fetchMakeOrder } from "services/order-details";
 import { Modal, Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
@@ -17,30 +19,38 @@ import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const { accessToken } = useTypedSelector(state => state.account);
     const { ingredients } = useTypedSelector(state => state.burgerIngredients);
     const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
     const { details, detailsRequest, detailsError } = useTypedSelector(
         state => state.orderDetails
     );
     const dispatch = useDispatch();
+    const history = useHistory();
     const mainsTotalPrice = useMemo(() => {
         if (mains) {
             return mains.reduce((acc, current) => acc + current.price, 0);
         }
     }, [mains]);
-    const bunsTotalPrice = bun.price * 2;
+    const bunsTotalPrice = bun && bun.price ? bun.price * 2 : 0;
+    const mainsTotal = mainsTotalPrice ? mainsTotalPrice : 0;
+    const totalPrice = bunsTotalPrice + mainsTotal;
 
     const orderIds = useMemo(() => {
         return ingredients && ingredients.map(ingredient => ingredient._id);
     }, [ingredients]);
 
     const handleMakeOrderClick = () => {
-        const options = {
-            ingredients: orderIds,
-        };
-        if (!detailsRequest) {
-            dispatch(fetchMakeOrder(options));
-            setIsOpenModal(true);
+        if (accessToken) {
+            const options = {
+                ingredients: orderIds,
+            };
+            if (!detailsRequest) {
+                dispatch(fetchMakeOrder(options));
+                setIsOpenModal(true);
+            }
+        } else {
+            history.push(ROUTES.LOGIN);
         }
     };
 
@@ -81,21 +91,21 @@ export const Order: React.FC = () => {
                 <div className={classes.Control}>
                     <div className={classes.TotalPrice}>
                         <p className="text text_type_digits-medium mr-2">
-                            {mainsTotalPrice &&
-                                mainsTotalPrice + bunsTotalPrice}
+                            {totalPrice}
                         </p>
                         <CurrencyIcon type="primary" />
                     </div>
                     <Button
                         type="primary"
                         size="large"
+                        disabled={isEmpty(bun)}
                         onClick={handleMakeOrderClick}
                     >
                         Оформить заказ
                     </Button>
                 </div>
             </section>
-            <Modal isOpen={isOpenModal} onCloseModal={handleModalClose}>
+            <Modal isOpen={isOpenModal} onClose={handleModalClose}>
                 {detailsRequest ? (
                     <Spinner />
                 ) : (

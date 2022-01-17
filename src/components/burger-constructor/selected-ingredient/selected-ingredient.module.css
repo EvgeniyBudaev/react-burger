@@ -1,0 +1,21 @@
+.SelectedIngredient {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.SelectedIngredient svg {
+    margin-right: 8px;
+}
+
+.SelectedIngredient div {
+    max-width: 536px;
+    width: 100%;
+}
+
+.SelectedIngredient .Empty {
+    display: inline-flex;
+    margin-right: 8px;
+    max-width: 24px;
+    height: 24px;
+}

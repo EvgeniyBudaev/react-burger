@@ -33,6 +33,9 @@ export const fetchMakeOrder =
                 type: ActionTypes.GET_ORDER_DETAILS_SUCCESS,
                 payload: data,
             });
+            dispatch({
+                type: ActionTypes.CLEAR_ALL_INGREDIENTS,
+            });
         } catch (error) {
             dispatch({
                 type: ActionTypes.GET_ORDER_DETAILS_FAILED,

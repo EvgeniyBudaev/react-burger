@@ -3,6 +3,7 @@ export interface IIngredient {
     carbohydrates: number;
     count?: number;
     _id: string;
+    id?: string;
     image: string;
     image_large: string;
     image_mobile: string;
