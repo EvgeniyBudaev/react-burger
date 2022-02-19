@@ -1,5 +1,19 @@
+export interface IOwner {
+    createdAt: string;
+    email: string;
+    name: string;
+    updatedAt: string;
+}
+
 export interface IOrder {
-    number: number;
+    createdAt: string;
+    _id: string;
+    ingredients: string[];
+    name: string;
+    number?: number;
+    owner: IOwner;
+    status?: "created" | "pending" | "done";
+    updatedAt: string;
 }
 
 export interface IOrderDetails {

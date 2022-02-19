@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import {
     ConstructorElement as YaConstructorElement,
     DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useDispatch, useSelector } from "hooks";
 import { deleteIngredient, moveIngredients } from "services/burger-constructor";
+import { burgerConstructorSelector } from "services/selectors";
 import classes from "./selected-ingredient.module.css";
 
 export interface ISelectedIngredientProps {
@@ -27,7 +27,7 @@ export const SelectedIngredient: React.FC<ISelectedIngredientProps> = ({
     text,
     thumbnail,
 }) => {
-    const { mains } = useTypedSelector(state => state.burgerConstructor);
+    const { mains } = useSelector(burgerConstructorSelector);
     const dispatch = useDispatch();
     const ref = useRef<HTMLLIElement>(null);
 

@@ -7,8 +7,9 @@ import {
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useSelector } from "hooks";
 import { ROUTES } from "routes";
+import { burgerConstructorSelector } from "services/selectors";
 import { IIngredient } from "types/ingredient";
 import classes from "./ingredient.module.css";
 
@@ -19,7 +20,7 @@ export interface IIngredientProps {
 export const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
     const { _id, image, name, price, type } = ingredient;
     const [orderCount, setOrderCount] = useState(0);
-    const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
+    const { bun, mains } = useSelector(burgerConstructorSelector);
     const location = useLocation();
 
     useEffect(() => {

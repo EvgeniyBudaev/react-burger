@@ -1,5 +1,9 @@
 :root {
     --accent: #4c4cff;
     --background-alt: #131316;
+    --background-base: #1c1c21;
+    --cancel: #ff0000ff;
+    --pending: #f2f2f3;
     --secondary: #8585ad;
+    --success: #00cccc;
 }

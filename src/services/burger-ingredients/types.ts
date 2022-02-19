@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
 import { ActionTypes } from "services/burger-ingredients";
+import { IError } from "types/error";
 import { IIngredient } from "types/ingredient";
 
 export interface IActionBurgerIngredientsRequest {
@@ -13,7 +13,7 @@ export interface IActionBurgerIngredientsSuccess {
 
 export interface IActionBurgerIngredientsFailed {
     type: ActionTypes.GET_BURGER_INGREDIENTS_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export type BurgerIngredientsActionsType =

@@ -1,32 +1,31 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { ToastContainer as ErrorPopup } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
     Button,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { BurgerConstructor, OrderDetails } from "components";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { BurgerConstructor } from "components";
+import { useDispatch, useSelector } from "hooks";
 import isEmpty from "lodash/isEmpty";
 import { ROUTES } from "routes";
 import { fetchMakeOrder } from "services/order-details";
-import { Modal, Spinner } from "ui-kit";
+import {
+    accountSelector,
+    burgerConstructorSelector,
+    orderDetailsSelector,
+} from "services/selectors";
 import { AlertError } from "utils/alert";
-import { getErrorStatus } from "utils/error";
 import classes from "./order.module.css";
 
 export const Order: React.FC = () => {
-    const [isOpenModal, setIsOpenModal] = useState(false);
-    const { accessToken } = useTypedSelector(state => state.account);
-    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
-    const { bun, mains } = useTypedSelector(state => state.burgerConstructor);
-    const { details, detailsRequest, detailsError } = useTypedSelector(
-        state => state.orderDetails
-    );
+    const { accessToken } = useSelector(accountSelector);
+    const { bun, mains } = useSelector(burgerConstructorSelector);
+    const { detailsRequest, detailsError } = useSelector(orderDetailsSelector);
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const mainsTotalPrice = useMemo(() => {
         if (mains) {
             return mains.reduce((acc, current) => acc + current.price, 0);
@@ -37,8 +36,8 @@ export const Order: React.FC = () => {
     const totalPrice = bunsTotalPrice + mainsTotal;
 
     const orderIds = useMemo(() => {
-        return ingredients && ingredients.map(ingredient => ingredient._id);
-    }, [ingredients]);
+        return mains && mains.map(ingredient => ingredient._id).concat(bun._id);
+    }, [bun, mains]);
 
     const handleMakeOrderClick = () => {
         if (accessToken) {
@@ -46,8 +45,13 @@ export const Order: React.FC = () => {
                 ingredients: orderIds,
             };
             if (!detailsRequest) {
+                history.push({
+                    pathname: "/order-modal",
+                    state: {
+                        modal: location,
+                    },
+                });
                 dispatch(fetchMakeOrder(options));
-                setIsOpenModal(true);
             }
         } else {
             history.push(ROUTES.LOGIN);
@@ -56,32 +60,9 @@ export const Order: React.FC = () => {
 
     useEffect(() => {
         if (detailsError) {
-            if (detailsError.response) {
-                const errorStatus = getErrorStatus(detailsError);
-
-                if (errorStatus === 404) {
-                    AlertError(
-                        "Запрашиваемой страницы не существует! (from BurgerIngredients)",
-                        detailsError.message
-                    );
-                }
-            } else if (detailsError.request) {
-                AlertError(
-                    "Не правильные параметры запроса!",
-                    detailsError.message
-                );
-            } else {
-                AlertError(
-                    "Не удалось получить детали заказ!",
-                    detailsError.message
-                );
-            }
+            AlertError(detailsError.error.body);
         }
     }, [detailsError]);
-
-    const handleModalClose = () => {
-        setIsOpenModal(false);
-    };
 
     return (
         <>
@@ -105,13 +86,6 @@ export const Order: React.FC = () => {
                     </Button>
                 </div>
             </section>
-            <Modal isOpen={isOpenModal} onClose={handleModalClose}>
-                {detailsRequest ? (
-                    <Spinner />
-                ) : (
-                    <OrderDetails orderDetails={details} />
-                )}
-            </Modal>
         </>
     );
 };

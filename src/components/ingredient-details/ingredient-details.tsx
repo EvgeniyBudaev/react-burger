@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import cn from "classnames";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useSelector } from "hooks";
+import { burgerIngredientsSelector } from "services/selectors";
 import { Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
-import { getErrorStatus } from "utils/error";
 import classes from "./ingredient-details.module.css";
 
 export interface IIngredientDetailsProps {
@@ -12,8 +12,8 @@ export interface IIngredientDetailsProps {
 }
 
 export const IngredientDetails: React.FC<IIngredientDetailsProps> = () => {
-    const { ingredients, ingredientsError } = useTypedSelector(
-        state => state.burgerIngredients
+    const { ingredients, ingredientsError } = useSelector(
+        burgerIngredientsSelector
     );
     const location = useLocation();
     const { id } = useParams<{ id?: string }>();
@@ -21,26 +21,7 @@ export const IngredientDetails: React.FC<IIngredientDetailsProps> = () => {
 
     useEffect(() => {
         if (ingredientsError) {
-            if (ingredientsError.response) {
-                const errorStatus = getErrorStatus(ingredientsError);
-
-                if (errorStatus === 404) {
-                    AlertError(
-                        "Запрашиваемой страницы не существует!",
-                        ingredientsError.message
-                    );
-                }
-            } else if (ingredientsError.request) {
-                AlertError(
-                    "Не правильные параметры запроса!",
-                    ingredientsError.message
-                );
-            } else {
-                AlertError(
-                    "Не удалось получить список ингредиентов!",
-                    ingredientsError.message
-                );
-            }
+            AlertError(ingredientsError.error.body);
         }
     }, [ingredientsError]);
 

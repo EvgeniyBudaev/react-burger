@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
 import { Reducer } from "redux";
+import { IError } from "types/error";
 import { IIngredient } from "types/ingredient";
 import {
     ActionTypes,
@@ -10,7 +10,7 @@ interface IBurgerIngredientsState {
     ingredients: IIngredient[];
     ingredientsRequest: boolean;
     ingredientsFailed: boolean;
-    ingredientsError: AxiosError | null;
+    ingredientsError: IError | null;
 }
 
 const initialState: IBurgerIngredientsState = {

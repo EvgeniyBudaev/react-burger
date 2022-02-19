@@ -1,20 +1,32 @@
-import { AxiosError } from "axios";
 import { Reducer } from "redux";
 import { ActionTypes, OrderDetailsActionsType } from "services/order-details";
 import { IOrderDetails } from "types/order";
+import { IError } from "types/error";
 
 interface IOrderDetailsState {
     details: IOrderDetails;
     detailsRequest: boolean;
     detailsFailed: boolean;
-    detailsError: AxiosError | null;
+    detailsError: IError | null;
 }
 
 const initialState: IOrderDetailsState = {
     details: {
         name: "",
         order: {
-            number: 0,
+            createdAt: "",
+            _id: "",
+            ingredients: [],
+            name: "",
+            number: undefined,
+            owner: {
+                createdAt: "",
+                email: "",
+                name: "",
+                updatedAt: "",
+            },
+            status: undefined,
+            updatedAt: "",
         },
         success: false,
     },

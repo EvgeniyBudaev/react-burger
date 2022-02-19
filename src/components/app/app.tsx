@@ -2,16 +2,19 @@ import React, { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     AppHeader,
     IngredientDetails,
     ModalIngredientDetails,
+    ModalOrderDetails,
+    ModalOrderIngredients,
+    OrderCardIngredientsDetails,
     ProtectedRoute,
 } from "components";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useDispatch, useSelector } from "hooks";
 import {
+    FeedPage,
     ForgotPasswordPage,
     HomePage,
     LoginPage,
@@ -22,8 +25,8 @@ import {
 } from "pages";
 import { ROUTES } from "routes";
 import { fetchBurgerIngredients } from "services/burger-ingredients";
+import { burgerIngredientsSelector } from "services/selectors";
 import { Spinner } from "ui-kit";
-import { getErrorStatus } from "utils/error";
 import { AlertError } from "utils/alert";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/index.css";
@@ -32,8 +35,8 @@ export const App: React.FC = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const isModalOpen = location.state && location.state.modal;
-    const { ingredientsRequest, ingredientsError } = useTypedSelector(
-        state => state.burgerIngredients
+    const { ingredientsRequest, ingredientsError } = useSelector(
+        burgerIngredientsSelector
     );
 
     useEffect(() => {
@@ -45,26 +48,7 @@ export const App: React.FC = () => {
 
     useEffect(() => {
         if (ingredientsError) {
-            if (ingredientsError.response) {
-                const errorStatus = getErrorStatus(ingredientsError);
-
-                if (errorStatus === 404) {
-                    AlertError(
-                        "Запрашиваемой страницы не существует! (from BurgerIngredients)",
-                        ingredientsError.message
-                    );
-                }
-            } else if (ingredientsError.request) {
-                AlertError(
-                    "Не правильные параметры запроса!",
-                    ingredientsError.message
-                );
-            } else {
-                AlertError(
-                    "Не удалось получить список ингредиентов для конструктора!",
-                    ingredientsError.message
-                );
-            }
+            AlertError(ingredientsError.error.body);
         }
     }, [ingredientsError]);
 
@@ -98,6 +82,13 @@ export const App: React.FC = () => {
                             component={ResetPasswordPage}
                             exact
                         />
+                        <ProtectedRoute
+                            path={`${ROUTES.PROFILE}${ROUTES.ORDERS}/:id`}
+                        >
+                            <Route exact>
+                                <OrderCardIngredientsDetails />
+                            </Route>
+                        </ProtectedRoute>
                         <ProtectedRoute path={ROUTES.PROFILE}>
                             <Route exact>
                                 <ProfilePage />
@@ -108,14 +99,44 @@ export const App: React.FC = () => {
                             component={IngredientDetails}
                             exact
                         />
+                        <Route
+                            path={`${ROUTES.FEED}`}
+                            component={FeedPage}
+                            exact
+                        />
+                        <Route
+                            path={`${ROUTES.FEED}/:id`}
+                            component={OrderCardIngredientsDetails}
+                            exact
+                        />
                         <Route component={NotFound404} />
                     </Switch>
                     {isModalOpen && (
-                        <Route
-                            path={`${ROUTES.INGREDIENTS}/:id`}
-                            children={<ModalIngredientDetails />}
-                            exact
-                        />
+                        <>
+                            <Route
+                                path={`${ROUTES.INGREDIENTS}/:id`}
+                                children={<ModalIngredientDetails />}
+                                exact
+                            />
+                            <ProtectedRoute
+                                path={`${ROUTES.PROFILE}${ROUTES.ORDERS}/:id`}
+                            >
+                                <Route
+                                    children={<ModalOrderIngredients />}
+                                    exact
+                                />
+                            </ProtectedRoute>
+                            <Route
+                                path={`${ROUTES.FEED}/:id`}
+                                children={<ModalOrderIngredients />}
+                                exact
+                            />
+                            <Route
+                                path="/order-modal"
+                                children={<ModalOrderDetails />}
+                                exact
+                            />
+                        </>
                     )}
                 </DndProvider>
             )}

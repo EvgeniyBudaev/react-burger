@@ -4,12 +4,13 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ROUTES } from "routes";
 import cn from "classnames";
 import { CustomLink } from "components";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useSelector } from "hooks";
+import { accountSelector } from "services/selectors";
 import { Spacer } from "ui-kit";
 import classes from "./app-header.module.css";
 
 export const AppHeader: React.FC = () => {
-    const { accessToken } = useTypedSelector(state => state.account);
+    const { accessToken } = useSelector(accountSelector);
 
     return (
         <header className={cn("pb-4 pt-4", classes.AppHeader)}>
@@ -22,7 +23,7 @@ export const AppHeader: React.FC = () => {
                     />
                     <CustomLink
                         iconType="list"
-                        routeTo={ROUTES.ORDER_LIST}
+                        routeTo={ROUTES.FEED}
                         title="Лента заказов"
                     />
                 </nav>
