@@ -20,7 +20,6 @@ export interface ISelectedIngredientProps {
 }
 
 export const SelectedIngredient: React.FC<ISelectedIngredientProps> = ({
-    _id,
     id,
     index,
     price,

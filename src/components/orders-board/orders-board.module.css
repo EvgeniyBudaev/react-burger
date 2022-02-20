@@ -1,31 +1,31 @@
 .OrdersBoard {
-	max-width: 580px;
-	max-height: 626px;
+    max-width: 580px;
+    max-height: 626px;
 }
 
 .BoardContainer {
-	display: flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .List {
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	max-height: 256px;
-	min-width: 272px;
-	column-gap: 10px;
-	overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 256px;
+    min-width: 272px;
+    column-gap: 10px;
+    overflow: hidden;
 }
 
 .ListItem {
-	color: rgba(0, 204, 204, 1);
+    color: rgba(0, 204, 204, 1);
 }
 
 .NumberOrder {
-	text-shadow: 0 0 16px rgba(51, 51, 255, 0.25),
-	0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+    text-shadow: 0 0 16px rgba(51, 51, 255, 0.25),
+        0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
 }

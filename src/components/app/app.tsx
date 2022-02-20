@@ -115,25 +115,25 @@ export const App: React.FC = () => {
                         <>
                             <Route
                                 path={`${ROUTES.INGREDIENTS}/:id`}
-                                children={<ModalIngredientDetails />}
+                                component={ModalIngredientDetails}
                                 exact
                             />
                             <ProtectedRoute
                                 path={`${ROUTES.PROFILE}${ROUTES.ORDERS}/:id`}
                             >
                                 <Route
-                                    children={<ModalOrderIngredients />}
+                                    component={ModalOrderIngredients}
                                     exact
                                 />
                             </ProtectedRoute>
                             <Route
                                 path={`${ROUTES.FEED}/:id`}
-                                children={<ModalOrderIngredients />}
+                                component={ModalOrderIngredients}
                                 exact
                             />
                             <Route
                                 path="/order-modal"
-                                children={<ModalOrderDetails />}
+                                component={ModalOrderDetails}
                                 exact
                             />
                         </>

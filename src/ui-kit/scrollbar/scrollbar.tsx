@@ -34,7 +34,7 @@ export const Scrollbar = forwardRef(
             <div className={className} ref={ref}>
                 <Scrollbars
                     className={classes.Scrollbar}
-                    autoHeight
+                    autoHeight={autoHeight}
                     autoHeightMin={autoHeightMin}
                     autoHeightMax={autoHeightMax}
                     hideTracksWhenNotNeeded={hideTracksWhenNotNeeded}

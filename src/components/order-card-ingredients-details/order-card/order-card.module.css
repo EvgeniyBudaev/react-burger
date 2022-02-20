@@ -1,52 +1,52 @@
 .OrderCard {
-	display: flex;
-	flex-direction: column;
-	margin: 19px auto 0;
-	max-width: 640px;
-	max-height: 620px;
+    display: flex;
+    flex-direction: column;
+    margin: 19px auto 0;
+    max-width: 640px;
+    max-height: 620px;
 }
 
 .OrderNumber {
-	text-align: center;
+    text-align: center;
 }
 
 .List {
-	display: flex;
-	flex-direction: column;
-	list-style-type: none;
-	padding: 0;
-	margin-bottom: 40px;
-	max-height: 300px;
-	overflow-y: auto;
-	scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 40px;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar {
-	width: 8px;
+    width: 8px;
 }
 ::-webkit-scrollbar-track {
-	background: rgba(47, 47, 55, 1);
+    background: rgba(47, 47, 55, 1);
 }
 ::-webkit-scrollbar-thumb {
-	background: rgba(133, 133, 173, 1);
-	border: 3px solid rgba(133, 133, 173, 1);
-	min-height: 50px;
+    background: rgba(133, 133, 173, 1);
+    border: 3px solid rgba(133, 133, 173, 1);
+    min-height: 50px;
 }
 
 .TotalPrice {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .doneColor {
-	color: rgba(0, 204, 204, 1);
+    color: rgba(0, 204, 204, 1);
 }
 
 .pendingColor {
-	color: rgba(242, 242, 243, 1);
+    color: rgba(242, 242, 243, 1);
 }
 
 .cancelledColor {
-	color: rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
 }

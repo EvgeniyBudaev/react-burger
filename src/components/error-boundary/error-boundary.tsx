@@ -21,6 +21,7 @@ class ErrorBoundary extends Component<
 
     // с помощью этого метода меняем стейт компонента при возникновении ошибки:
     static getDerivedStateFromError(error: Error): IErrorBoundaryState {
+        console.error(error);
         return { hasError: true };
     }
 

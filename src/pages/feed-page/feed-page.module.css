@@ -1,8 +1,8 @@
 .FeedPage {
-	width: 100%;
+    width: 100%;
 }
 
 .Inner {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
