@@ -19,6 +19,5 @@
         "allowSyntheticDefaultImports": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["src", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
+    "include": ["src"]
 }
