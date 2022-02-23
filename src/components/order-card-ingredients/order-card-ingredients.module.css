@@ -1,0 +1,82 @@
+.Link {
+    width: 100%;
+    color: rgba(242, 242, 243, 1);
+    text-decoration: none;
+}
+
+.Section {
+    background: var(--background-base);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06),
+        0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+}
+
+.OrderTime {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ContainerOrderImg {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.List {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    list-style-type: none;
+}
+
+.ListItem {
+    height: 64px;
+    width: 64px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    background-color: var(--background-alt);
+}
+
+.ListItem:not(:first-child) {
+    margin-left: -16px;
+}
+
+.Image {
+    height: 64px;
+    width: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.Overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: aliceblue;
+    background: rgba(28, 28, 33, 0.6);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.ContainerPrice {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.doneColor {
+    color: var(--success);
+}
+
+.pendingColor {
+    color: var(--pending);
+}
+
+.cancelledColor {
+    color: var(--cancel);
+}

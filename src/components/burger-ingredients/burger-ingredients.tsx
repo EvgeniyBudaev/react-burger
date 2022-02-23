@@ -4,7 +4,8 @@ import { useHistory } from "react-router-dom";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { Menu } from "components";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useSelector } from "hooks";
+import { burgerIngredientsSelector } from "services/selectors";
 import { newGuid } from "utils/guid";
 import classes from "./burger-ingredients.module.css";
 
@@ -12,7 +13,7 @@ export const BurgerIngredients: React.FC = () => {
     const [currentTab, setCurrentTab] = React.useState<string>(
         INGREDIENT_TYPE.BUN
     );
-    const { ingredients } = useTypedSelector(state => state.burgerIngredients);
+    const { ingredients } = useSelector(burgerIngredientsSelector);
     const history = useHistory();
     const titleToScrollRef = useRef({
         current: null,

@@ -15,7 +15,6 @@ export interface IConstructorElementProps {
 }
 
 export const ConstructorElement: React.FC<IConstructorElementProps> = ({
-    _id,
     isLocked,
     price,
     text,

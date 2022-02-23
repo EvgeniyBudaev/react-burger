@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
@@ -9,12 +8,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { Layout } from "components";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useDispatch, useSelector } from "hooks";
 import { ROUTES } from "routes";
 import { resetPassword } from "services/account";
+import { accountSelector } from "services/selectors";
 import { Spinner } from "ui-kit";
 import { AlertError } from "utils/alert";
-import { getErrorStatus } from "utils/error";
 import classes from "./reset-password-page.module.css";
 
 export const ResetPasswordPage: React.FC = () => {
@@ -27,25 +26,12 @@ export const ResetPasswordPage: React.FC = () => {
         passwordReseted,
         error,
         resetPasswordRequest: isLoading,
-    } = useTypedSelector(state => state.account);
+    } = useSelector(accountSelector);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (error) {
-            if (error.response) {
-                const errorStatus = getErrorStatus(error);
-
-                if (errorStatus === 404) {
-                    AlertError(
-                        "Запрашиваемой страницы не существует!",
-                        error.message
-                    );
-                }
-            } else if (error.request) {
-                AlertError("Не правильные параметры запроса!", error.message);
-            } else {
-                AlertError("Не удалось восстановить пароль!", error.message);
-            }
+            AlertError(error.error.body);
         }
     }, [error]);
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     Button,
@@ -8,10 +7,10 @@ import {
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { useTypedSelector } from "hooks/useTypedSelector";
-import { getUser, updateUser } from "services/account";
+import { useDispatch, useSelector } from "hooks";
+import { updateUser } from "services/account";
+import { accountSelector } from "services/selectors";
 import { AlertError } from "utils/alert";
-import { getErrorStatus } from "utils/error";
 import classes from "./profile-details.module.css";
 
 export const ProfileDetails: React.FC = () => {
@@ -20,13 +19,9 @@ export const ProfileDetails: React.FC = () => {
         name: "",
         password: "",
     };
-    const { error, user } = useTypedSelector(state => state.account);
+    const { error, user } = useSelector(accountSelector);
     const [formState, setFormState] = useState(initialFormState);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getUser());
-    }, [dispatch]);
 
     useEffect(() => {
         if (user) {
@@ -37,23 +32,7 @@ export const ProfileDetails: React.FC = () => {
 
     useEffect(() => {
         if (error) {
-            if (error.response) {
-                const errorStatus = getErrorStatus(error);
-
-                if (errorStatus === 404) {
-                    AlertError(
-                        "Запрашиваемой страницы не существует!",
-                        error.message
-                    );
-                }
-            } else if (error.request) {
-                AlertError("Не правильные параметры запроса!", error.message);
-            } else {
-                AlertError(
-                    "Не удалось получить данные пользователя!",
-                    error.message
-                );
-            }
+            AlertError(error.error.body);
         }
     }, [error]);
 

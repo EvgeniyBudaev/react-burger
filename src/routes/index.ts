@@ -1,10 +1,10 @@
 export const ROUTES = {
+    FEED: "/feed",
     FORGOT_PASSWORD: "/forgot-password",
     HOME: "/",
     INGREDIENTS: "/ingredients",
     LOGIN: "/login",
     LOGOUT: "/logout",
-    ORDER_LIST: "/order-list",
     ORDERS: "/orders",
     PROFILE: "/profile",
     REGISTER: "/register",

@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
 import { Reducer } from "redux";
 import { AccountActionsType, ActionTypes } from "services/account";
 import { getCookie } from "utils/coockie";
+import { IError } from "types/error";
 import { IUser } from "./types";
 
 interface IAccountState {
@@ -23,7 +23,10 @@ interface IAccountState {
     registerFailed: boolean;
     resetPasswordRequest: boolean;
     resetPasswordFailed: boolean;
-    error: AxiosError | null;
+    error: IError | null;
+    tokenRequest: boolean;
+    tokenUpdate: boolean;
+    tokenFailed: boolean;
     updateUserRequest: boolean;
     updateUserFailed: boolean;
 }
@@ -48,6 +51,9 @@ const initialState: IAccountState = {
     resetPasswordRequest: false,
     resetPasswordFailed: false,
     error: null,
+    tokenRequest: false,
+    tokenUpdate: false,
+    tokenFailed: false,
     updateUserRequest: false,
     updateUserFailed: false,
 };
@@ -195,6 +201,26 @@ export const reducer: Reducer<IAccountState, AccountActionsType> = (
                 getUserFailed: true,
                 error: action.payload,
             };
+        case ActionTypes.TOKEN_REQUEST: {
+            return { ...state, tokenRequest: true };
+        }
+        case ActionTypes.TOKEN_SUCCESS: {
+            return {
+                ...state,
+                tokenUpdate: true,
+                tokenRequest: false,
+                tokenFailed: false,
+            };
+        }
+        case ActionTypes.TOKEN_ERROR: {
+            return {
+                ...state,
+                tokenRequest: false,
+                tokenUpdate: false,
+                tokenFailed: true,
+                error: action.payload,
+            };
+        }
         case ActionTypes.UPDATE_USER_REQUEST: {
             return {
                 ...state,

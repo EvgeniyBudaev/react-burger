@@ -1,5 +1,11 @@
-import { AxiosError } from "axios";
 import { ActionTypes } from "services/account";
+import { IError } from "types/error";
+
+export type IGetTokens = {
+    accessToken: string;
+    refreshToken: string;
+    success: boolean;
+};
 
 export interface IUser {
     email: string;
@@ -82,7 +88,7 @@ export interface IActionLoginSuccess {
 
 export interface IActionLoginFailed {
     type: ActionTypes.LOGIN_USER_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export interface IActionRegisterRequest {
@@ -96,7 +102,7 @@ export interface IActionRegisterSuccess {
 
 export interface IActionRegisterFailed {
     type: ActionTypes.REGISTER_USER_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export interface IActionForgotPasswordRequest {
@@ -109,7 +115,7 @@ export interface IActionForgotPasswordSuccess {
 
 export interface IActionForgotPasswordFailed {
     type: ActionTypes.FORGOT_PASSWORD_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export interface IActionResetPasswordRequest {
@@ -122,7 +128,7 @@ export interface IActionResetPasswordSuccess {
 
 export interface IActionResetPasswordFailed {
     type: ActionTypes.RESET_PASSWORD_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export interface IActionLogoutRequest {
@@ -135,7 +141,7 @@ export interface IActionLogoutSuccess {
 
 export interface IActionLogoutFailed {
     type: ActionTypes.LOGOUT_USER_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export interface IActionGetUserRequest {
@@ -149,7 +155,20 @@ export interface IActionGetUserSuccess {
 
 export interface IActionGetUserFailed {
     type: ActionTypes.GET_USER_FAILED;
-    payload: AxiosError;
+    payload: IError;
+}
+
+export interface IActionTokenRequest {
+    type: ActionTypes.TOKEN_REQUEST;
+}
+
+export interface IActionTokenSuccess {
+    type: ActionTypes.TOKEN_SUCCESS;
+}
+
+export interface IActionTokenError {
+    type: ActionTypes.TOKEN_ERROR;
+    payload: IError;
 }
 
 export interface IActionUpdateUserRequest {
@@ -163,7 +182,7 @@ export interface IActionUpdateUserSuccess {
 
 export interface IActionUpdateUserFailed {
     type: ActionTypes.UPDATE_USER_FAILED;
-    payload: AxiosError;
+    payload: IError;
 }
 
 export type AccountActionsType =
@@ -185,6 +204,9 @@ export type AccountActionsType =
     | IActionGetUserRequest
     | IActionGetUserSuccess
     | IActionGetUserFailed
+    | IActionTokenRequest
+    | IActionTokenSuccess
+    | IActionTokenError
     | IActionUpdateUserRequest
     | IActionUpdateUserSuccess
     | IActionUpdateUserFailed;

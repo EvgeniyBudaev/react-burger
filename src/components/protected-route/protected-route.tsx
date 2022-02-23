@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { useTypedSelector } from "hooks/useTypedSelector";
+import { useDispatch, useSelector } from "hooks";
 import { ROUTES } from "routes";
+import { getNewAccessToken } from "services/account";
+import { accountSelector } from "services/selectors";
 
 export const ProtectedRoute: React.FC<RouteProps> = ({
     children,
     ...rest
 }): JSX.Element => {
-    const { accessToken } = useTypedSelector(state => state.account);
+    const dispatch = useDispatch();
+    const { accessToken } = useSelector(accountSelector);
+    const refreshToken = Boolean(localStorage.getItem("refreshToken"));
+
+    useEffect(() => {
+        if (refreshToken) {
+            dispatch(getNewAccessToken());
+        }
+    }, [dispatch, refreshToken]);
 
     return (
         <Route
