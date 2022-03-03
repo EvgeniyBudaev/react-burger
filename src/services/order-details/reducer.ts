@@ -3,7 +3,7 @@ import { ActionTypes, OrderDetailsActionsType } from "services/order-details";
 import { IOrderDetails } from "types/order";
 import { IError } from "types/error";
 
-interface IOrderDetailsState {
+export interface IOrderDetailsState {
     details: IOrderDetails;
     detailsRequest: boolean;
     detailsFailed: boolean;

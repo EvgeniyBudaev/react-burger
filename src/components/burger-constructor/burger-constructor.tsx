@@ -25,7 +25,7 @@ export const BurgerConstructor: React.FC = () => {
     });
 
     return (
-        <ul className="mb-10" ref={dropRef}>
+        <ul className="mb-10" ref={dropRef} data-cy="constructor">
             <ConstructorElement
                 _id={!isEmpty(bun) ? bun._id : ""}
                 isLocked={true}
@@ -41,21 +41,23 @@ export const BurgerConstructor: React.FC = () => {
                     autoHeightMax={469}
                     hideTracksWhenNotNeeded
                 >
-                    {mains &&
-                        mains.map((main, index) => (
-                            <SelectedIngredient
-                                key={main.id}
-                                _id={main._id}
-                                id={main.id}
-                                index={index}
-                                price={main.price}
-                                text={main.name}
-                                thumbnail={main.image_mobile}
-                            />
-                        ))}
+                    <div data-cy="constructor-main">
+                        {mains &&
+                            mains.map((main, index) => (
+                                <SelectedIngredient
+                                    key={main.id}
+                                    _id={main._id}
+                                    id={main.id}
+                                    index={index}
+                                    price={main.price}
+                                    text={main.name}
+                                    thumbnail={main.image_mobile}
+                                />
+                            ))}
+                    </div>
                 </Scrollbar>
             ) : (
-                <div className={classes.Empty}>
+                <div className={classes.Empty} data-cy="constructor-main">
                     <div className={classes.Inner}>
                         <Icon
                             className={cn("mb-4", classes.IconCart)}

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`burger-ingredients reducer should return the initial state 1`] = `
+Object {
+  "ingredients": Array [],
+  "ingredientsError": null,
+  "ingredientsFailed": false,
+  "ingredientsRequest": false,
+}
+`;

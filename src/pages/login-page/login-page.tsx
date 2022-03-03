@@ -3,7 +3,7 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { ToastContainer as ErrorPopup } from "react-toastify";
 import {
     Button,
-    EmailInput,
+    Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
@@ -65,8 +65,13 @@ export const LoginPage: React.FC = () => {
                     </p>
                     <form className={classes.Form} onSubmit={handleSubmitForm}>
                         <div className={classes.FormItem}>
-                            <EmailInput
+                            <Input
+                                error={false}
+                                errorText="Ошибка"
                                 name="email"
+                                placeholder="E-mail"
+                                size="default"
+                                type="text"
                                 value={formState.email}
                                 onChange={handleChange}
                             />
@@ -79,7 +84,7 @@ export const LoginPage: React.FC = () => {
                             />
                         </div>
                         <div className={classes.FormItem}>
-                            <Button>Войти</Button>
+                            <Button data-cy="login-button">Войти</Button>
                         </div>
                     </form>
                     <div className={classes.Footer}>

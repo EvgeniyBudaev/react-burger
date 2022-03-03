@@ -12,6 +12,7 @@ export interface IOrder {
     name: string;
     number?: number;
     owner: IOwner;
+    price?: number;
     status?: "created" | "pending" | "done";
     updatedAt: string;
 }

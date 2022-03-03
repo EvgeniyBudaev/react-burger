@@ -83,7 +83,7 @@ export interface IActionLoginRequest {
 
 export interface IActionLoginSuccess {
     type: ActionTypes.LOGIN_USER_SUCCESS;
-    payload: IRegisterResponse;
+    payload: ILoginResponse;
 }
 
 export interface IActionLoginFailed {
