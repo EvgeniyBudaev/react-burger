@@ -80,6 +80,7 @@ export const Order: React.FC = () => {
                         type="primary"
                         size="large"
                         disabled={isEmpty(bun)}
+                        data-cy="order-button"
                         onClick={handleMakeOrderClick}
                     >
                         Оформить заказ

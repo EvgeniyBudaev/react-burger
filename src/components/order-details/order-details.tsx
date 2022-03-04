@@ -43,7 +43,10 @@ export const OrderDetails: React.FC = () => {
                         {orderNumber}
                     </h3>
                 )}
-                <p className="text text_type_main-medium mb-15">
+                <p
+                    className="text text_type_main-medium mb-15"
+                    data-cy="order-details-title"
+                >
                     {orderNumber
                         ? "идентификатор заказа"
                         : "до готовности заказа"}

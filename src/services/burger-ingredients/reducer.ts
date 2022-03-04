@@ -6,7 +6,7 @@ import {
     BurgerIngredientsActionsType,
 } from "services/burger-ingredients/index";
 
-interface IBurgerIngredientsState {
+export interface IBurgerIngredientsState {
     ingredients: IIngredient[];
     ingredientsRequest: boolean;
     ingredientsFailed: boolean;

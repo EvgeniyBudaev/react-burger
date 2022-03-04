@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`order-details reducer should return the initial state 1`] = `
+Object {
+  "details": Object {
+    "name": "",
+    "order": Object {
+      "_id": "",
+      "createdAt": "",
+      "ingredients": Array [],
+      "name": "",
+      "number": undefined,
+      "owner": Object {
+        "createdAt": "",
+        "email": "",
+        "name": "",
+        "updatedAt": "",
+      },
+      "status": undefined,
+      "updatedAt": "",
+    },
+    "success": false,
+  },
+  "detailsError": null,
+  "detailsFailed": false,
+  "detailsRequest": false,
+}
+`;

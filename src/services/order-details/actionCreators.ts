@@ -33,6 +33,7 @@ export const fetchMakeOrder: AppThunk =
                 body,
                 config
             );
+            console.log("response:", response);
             dispatch({
                 type: ActionTypes.GET_ORDER_DETAILS_SUCCESS,
                 payload: response.data,

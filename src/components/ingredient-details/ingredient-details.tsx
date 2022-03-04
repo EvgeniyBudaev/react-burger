@@ -52,6 +52,7 @@ export const IngredientDetails: React.FC<IIngredientDetailsProps> = () => {
                         "text text_type_main-medium mb-8",
                         classes.Title
                     )}
+                    data-cy="ingredient-modal-name"
                 >
                     {name}
                 </p>
@@ -65,7 +66,10 @@ export const IngredientDetails: React.FC<IIngredientDetailsProps> = () => {
                         </p>
                     </li>
                     <li className={classes.Detail}>
-                        <p className="text text_type_main-default text_color_inactive mb-2">
+                        <p
+                            className="text text_type_main-default text_color_inactive mb-2"
+                            data-cy="ingredient-modal-item"
+                        >
                             Белки,г
                         </p>
                         <p className="text text_type_digits-default text_color_inactive">
