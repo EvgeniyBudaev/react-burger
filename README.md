@@ -1,46 +1,141 @@
-# Getting Started with Create React App
+# Яндекс.Практикум. React-разработчик. Проект React-Burger
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### https://cosmos-react-burger.nomoredomains.work
 
-## Available Scripts
+## Содержание
+- [Описание_проекта](#Описание_проекта)
+- [Технологии](#Технологии)
+- [Настройка_сервера](#Настройка_сервера)
+- [Запуск проекта](#Запуск_проекта)
+- [Тесты](#Тесты)
+- [Авторы](#Авторы)
 
-In the project directory, you can run:
+### <a name="Описание_проекта">Описание</a>
 
-### `npm start`
+Космическая бургерная "Stellar Burger" удовлетворит самых взыскательных клиентов.
+Благодаря встроенному конструктору вы сможете сконфигурировать бургер из понравившихся ингредиентов. Функционал 
+drag and drop добавит комфорт и легкость при выборе ингредиентов. В ленте заказов вы можете отслеживать время
+приготовления по номеру заказа. Мы ценим ваше время и поэтому  заказ выполняется не более 15 секунд. О завершении 
+приготовления на табло в ленте заказов появится соответствующая информация. Оформить и отслеживать заказ могут только
+авторизованные пользователи. В профиле вы можете вносить изменения в свои учетные данные и отслеживать свою ленту
+заказов.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### <a name="Технологии">Технологии</a>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+В проекте применяется
+- **React**,
+- **Redux**,
+- **TypeScript**,
+- **Nginx**,
+- **Git**,
+- **Coockie**,
+- **Node.js**,
+- **Cypress**,
+- **DragAndDrop**,
+- **Eslint**,
+- **Prettier**
+- 
+### <a name="Настройка_сервера">Настройка_сервера</a>
 
-### `npm test`
+- Установка Node.js:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```python
+ node -v локально
+ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+ sudo apt-get install -y nodejs
+ node -v на сервере
+```
 
-### `npm run build`
+- Установка GIT:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```python
+ sudo apt install -y git
+ git --version
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- HTTP-сервер nginx:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```python
+ sudo apt update
+ sudo apt install -y nginx
+ sudo ufw allow 'Nginx Full'
+ sudo ufw allow OpenSSH
+ sudo ufw enable
+ sudo systemctl enable --now nginx
+```
 
-### `npm run eject`
+- Редактирование файла конфигурации nginx:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```python
+ sudo nano /etc/nginx/sites-available/default
+ 
+ server {
+        listen 80;
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+        server_name cosmos-react-burger.nomoredomains.work;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+        root /home/admin/frontend;
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+        location / {
+	  try_files $uri $uri/ /index.html;
+        }
+}
 
-## Learn More
+ ctrl-O,ctrl-X
+ sudo nginx -t
+ sudo systemctl restart nginx
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Размещаем фронтенд на сервере:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```python
+ 1) На удалённом сервере создаём папку для фронтенда. Назовём её, например, frontend
+ 2) Соберём файлы локально командой npm run build
+ 3) Скопируем файлы с локального компьютера на удалённый. Это можно сделать командой scp
+    scp -r ./build/* admin@62.84.125.180:/home/admin/frontend
+```
+
+- Шифрование данных. Протокол HTTPS:
+
+```python
+ Выпускаем сертификат.
+ sudo apt update
+ sudo apt install -y certbot python3-certbot-nginx
+ Подключаем сертификат.
+ sudo certbot --nginx
+ В процессе исполнения вам нужно ответить на несколько вопросов:
+ 1) Enter email address (англ. «введите почту»). Почта нужна для предупреждений, что сертификат пора обновить.
+ 2) Please read the Terms of Service; (A)gree/(C)ancel: (англ. «прочитайте правила сервиса; принять/отклонить»). 
+    Прочитайте правила по ссылке и введите a. Затем нажмите Enter.
+ 3) Would you be willing to share your email address with the Electronic Frontier Foundation? (англ. «хотите ли вы 
+    поделиться своей почтой с Фондом электронных рубежей»). Отметьте на своё усмотрение y (да) или n (нет) и нажмите 
+    Enter.
+ 4) Which names would you like to activate HTTPS for? (англ. «для каких доменных имён вы хотите включить https?»). Вам
+    будет предложен вариант: domainname.students.nomoreparties.co. Это доменные имена, которые мы добавили в поле
+    server_name конфигурации nginx в предыдущих уроках. Ничего не вводите, просто нажмите Enter. Тогда https будет
+    включён для всех доменов.
+ 5) Please choose whether or not to redirect HTTP traffic to HTTPS? 1: No redirect, 2: Redirect (англ. «нужно ли
+    перенаправлять http траффик на https, 1: не перенаправлять, 2: перенаправлять»). Выберите 1 и нажмите Enter.
+ В итоге сертификаты будут выпущены. Также эта команда отредактирует конфигурацию nginx: добавит в неё нужные настройки
+ и пропишет пути к сертификату.
+ Перезапускаем nginx:
+ sudo systemctl reload nginx
+```
+
+### <a name="Запуск_проекта">Запуск проекта</a>
+```python
+ npm install
+ npm start
+```
+
+### <a name="Тесты">Тесты</a>
+
+```python
+  npm run test
+  npm run cypress:open
+```
+
+### <a name="Авторы">Авторы</a>
+```
+ Евгений Будаев
+```
