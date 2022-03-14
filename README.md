@@ -139,3 +139,9 @@ drag and drop добавит комфорт и легкость при выбо�
 ```
  Евгений Будаев
 ```
+
+![Image alt](https://github.com/EvgeniyBudaev/react-burger/raw/master/public/images/slide1.jpg)
+![Image alt](https://github.com/EvgeniyBudaev/react-burger/raw/master/public/images/slide2.jpg)
+![Image alt](https://github.com/EvgeniyBudaev/react-burger/raw/master/public/images/slide3.jpg)
+![Image alt](https://github.com/EvgeniyBudaev/react-burger/raw/master/public/images/slide4.jpg)
+![Image alt](https://github.com/EvgeniyBudaev/react-burger/raw/master/public/images/slide5.jpg)
